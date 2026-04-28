@@ -1,47 +1,51 @@
 import { motion } from 'framer-motion';
-import { BookOpen, Mic, FileText, User } from 'lucide-react';
+import { BookOpen, Feather, Mic, User } from 'lucide-react';
 import RevealText from './RevealText';
 
 const SHELVES = [
   {
     icon: BookOpen,
+    numeral: 'I',
     eyebrow: 'The Book',
     title: <>The Quiet <em>Line.</em></>,
-    body: 'A measured, literary reckoning with professional drift — and the practice that brings a person back. Available now.',
+    body:
+      'A measured, literary reckoning with professional drift — and the practice that brings a person back. Available now.',
     cta: 'Order the book →',
     href: 'https://quietlinebook.com',
     external: true,
-    accent: 'linear-gradient(135deg, #BC744E 0%, #8B4A2A 100%)',
   },
   {
-    icon: FileText,
+    icon: Feather,
+    numeral: 'II',
     eyebrow: 'Essays & Letters',
     title: <>The <em>writing.</em></>,
-    body: 'Essays, letters, and lecture notes — short pieces that travel further than the keynote can reach. New entry roughly every three weeks.',
+    body:
+      'Essays, letters, and lecture notes — short pieces that travel further than the keynote can reach. New entry roughly every three weeks.',
     cta: 'Read the latest →',
     href: '#writing',
     external: false,
-    accent: 'linear-gradient(135deg, #C28B6E 0%, #BC744E 100%)',
   },
   {
     icon: Mic,
+    numeral: 'III',
     eyebrow: 'The Lecture',
     title: <>Professional <em>Drift.</em></>,
-    body: 'A 45-minute lecture for rooms that can\'t afford a bad hour. Adapted to your industry — boards, hospitals, conservatories, festivals.',
+    body:
+      "A 45-minute lecture for rooms that can't afford a bad hour. Adapted to your industry — boards, hospitals, conservatories, festivals.",
     cta: 'Request a booking kit →',
     href: 'mailto:tristian@tristianwalker.com',
     external: false,
-    accent: 'linear-gradient(135deg, #D89A5C 0%, #BC744E 100%)',
   },
   {
     icon: User,
+    numeral: 'IV',
     eyebrow: 'About Tristian',
     title: <>The <em>bio.</em></>,
-    body: 'Twenty years inside the highest stakes of corporate and hospitality leadership — the foundation under everything else on this site.',
+    body:
+      'Twenty years inside the highest stakes of corporate and hospitality leadership — the foundation under everything else on this site.',
     cta: 'Read the bio →',
     href: '#about',
     external: false,
-    accent: 'linear-gradient(135deg, #D4B068 0%, #BC744E 100%)',
   },
 ];
 
@@ -68,7 +72,11 @@ export default function Library() {
           <div className="eyebrow">Everything · in one source</div>
           <RevealText
             as="h2"
-            style={{ fontSize: 'clamp(2.4rem, 4.6vw, 3.6rem)', margin: '0 0 1rem', letterSpacing: '-0.015em' }}
+            style={{
+              fontSize: 'clamp(2.4rem, 4.6vw, 3.6rem)',
+              margin: '0 0 1rem',
+              letterSpacing: '-0.015em',
+            }}
           >
             The book. The writing. The <em>lecture.</em>
           </RevealText>
@@ -77,13 +85,7 @@ export default function Library() {
           </p>
         </motion.div>
 
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '1.75rem',
-          }}
-        >
+        <div className="library-grid">
           {SHELVES.map((shelf, i) => {
             const Icon = shelf.icon;
             return (
@@ -97,116 +99,37 @@ export default function Library() {
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.65, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
                 whileHover={{ y: -8 }}
-                style={{
-                  position: 'relative',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  background: 'var(--bg-surface)',
-                  borderRadius: '18px',
-                  padding: '2.25rem 2rem 2rem',
-                  textDecoration: 'none',
-                  color: 'var(--text-main)',
-                  border: '1px solid rgba(0,0,0,0.04)',
-                  boxShadow: 'var(--shadow-md)',
-                  overflow: 'hidden',
-                  isolation: 'isolate',
-                  minHeight: '320px',
-                  transition: 'box-shadow .35s ease, transform .35s ease',
-                }}
                 className="library-card"
               >
                 {/* Top accent strip */}
-                <span
-                  aria-hidden
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    height: '4px',
-                    background: shelf.accent,
-                  }}
-                />
-                {/* Hover gradient wash */}
-                <span
-                  aria-hidden
-                  className="library-card__wash"
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    background: shelf.accent,
-                    opacity: 0,
-                    transition: 'opacity .45s ease',
-                    zIndex: -1,
-                  }}
-                />
+                <span aria-hidden className="library-card__strip" />
 
-                <div
-                  style={{
-                    width: '52px',
-                    height: '52px',
-                    borderRadius: '12px',
-                    background: 'rgba(188,116,78,0.10)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: '1.5rem',
-                    color: 'var(--accent-primary)',
-                  }}
-                >
-                  <Icon size={24} strokeWidth={1.6} />
+                {/* Centered formal icon medallion */}
+                <div className="library-card__medallion">
+                  <span aria-hidden className="library-card__ring library-card__ring--outer" />
+                  <span aria-hidden className="library-card__ring library-card__ring--inner" />
+                  <Icon
+                    size={44}
+                    strokeWidth={1.25}
+                    color="var(--accent-primary)"
+                    className="library-card__icon"
+                    aria-hidden
+                  />
                 </div>
 
-                <div
-                  style={{
-                    fontSize: '10.5px',
-                    letterSpacing: '0.4em',
-                    textTransform: 'uppercase',
-                    fontWeight: 700,
-                    color: 'var(--accent-primary)',
-                    marginBottom: '0.75rem',
-                  }}
-                >
-                  {shelf.eyebrow}
-                </div>
+                {/* Roman numeral — literary catalog feel */}
+                <div className="library-card__numeral">{shelf.numeral}</div>
 
-                <h3
-                  style={{
-                    fontSize: '1.7rem',
-                    margin: '0 0 0.75rem',
-                    lineHeight: 1.15,
-                    letterSpacing: '-0.01em',
-                  }}
-                >
-                  {shelf.title}
-                </h3>
+                {/* Ornamental hairline divider */}
+                <span aria-hidden className="library-card__divider" />
 
-                <p
-                  style={{
-                    fontSize: '0.97rem',
-                    lineHeight: 1.6,
-                    color: 'var(--text-muted)',
-                    margin: 0,
-                    flexGrow: 1,
-                  }}
-                >
-                  {shelf.body}
-                </p>
+                <div className="library-card__eyebrow">{shelf.eyebrow}</div>
 
-                <div
-                  style={{
-                    marginTop: '1.75rem',
-                    paddingTop: '1.25rem',
-                    borderTop: '1px dashed rgba(0,0,0,0.08)',
-                    fontSize: '11px',
-                    letterSpacing: '0.3em',
-                    textTransform: 'uppercase',
-                    fontWeight: 700,
-                    color: 'var(--accent-primary)',
-                  }}
-                >
-                  {shelf.cta}
-                </div>
+                <h3 className="library-card__title">{shelf.title}</h3>
+
+                <p className="library-card__body">{shelf.body}</p>
+
+                <div className="library-card__cta">{shelf.cta}</div>
               </motion.a>
             );
           })}
@@ -214,9 +137,147 @@ export default function Library() {
       </div>
 
       <style>{`
+        .library-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 1.75rem;
+        }
+
+        .library-card {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          background: var(--bg-surface);
+          border-radius: 18px;
+          padding: 3rem 1.75rem 2.25rem;
+          text-decoration: none;
+          color: var(--text-main);
+          border: 1px solid rgba(0,0,0,0.04);
+          box-shadow: var(--shadow-md);
+          overflow: hidden;
+          isolation: isolate;
+          min-height: 460px;
+          transition: box-shadow .35s ease;
+        }
         .library-card:hover { box-shadow: var(--shadow-warm); }
-        .library-card:hover .library-card__wash { opacity: 0.06; }
+
+        .library-card__strip {
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 4px;
+          background: linear-gradient(90deg, var(--accent-deep), var(--accent-primary), var(--accent-amber), var(--accent-gold));
+        }
+
+        /* Medallion: large centered icon framed by a double hairline ring */
+        .library-card__medallion {
+          position: relative;
+          width: 110px;
+          height: 110px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 1.5rem;
+          color: var(--accent-primary);
+        }
+        .library-card__ring {
+          position: absolute;
+          border-radius: 50%;
+          pointer-events: none;
+        }
+        .library-card__ring--outer {
+          inset: 0;
+          border: 1px solid rgba(188,116,78,0.45);
+          background:
+            radial-gradient(circle at 50% 30%, rgba(216,154,92,0.18), transparent 70%);
+          transition: transform .6s cubic-bezier(.16,1,.3,1);
+        }
+        .library-card__ring--inner {
+          inset: 8px;
+          border: 1px solid rgba(188,116,78,0.18);
+        }
+        .library-card:hover .library-card__ring--outer {
+          transform: rotate(45deg) scale(1.04);
+        }
+
+        .library-card__icon {
+          position: relative;
+          z-index: 1;
+          filter: drop-shadow(0 4px 8px rgba(140,70,40,0.18));
+        }
+
+        .library-card__numeral {
+          font-family: var(--font-heading);
+          font-style: italic;
+          font-size: 1.6rem;
+          color: var(--accent-primary);
+          line-height: 1;
+          margin-bottom: .9rem;
+          letter-spacing: 0.05em;
+        }
+
+        .library-card__divider {
+          width: 36px;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+          margin: 0 auto 1rem;
+          display: block;
+        }
+
+        .library-card__eyebrow {
+          font-size: 10.5px;
+          letter-spacing: 0.4em;
+          text-transform: uppercase;
+          font-weight: 700;
+          color: var(--accent-primary);
+          margin-bottom: .85rem;
+        }
+
+        .library-card__title {
+          font-size: 1.6rem;
+          margin: 0 0 .85rem;
+          line-height: 1.15;
+          letter-spacing: -0.01em;
+        }
+
+        .library-card__body {
+          font-size: .94rem;
+          line-height: 1.6;
+          color: var(--text-muted);
+          margin: 0;
+          flex-grow: 1;
+        }
+
+        .library-card__cta {
+          margin-top: 1.5rem;
+          padding-top: 1.25rem;
+          width: 100%;
+          border-top: 1px dashed rgba(0,0,0,0.08);
+          font-size: 11px;
+          letter-spacing: 0.3em;
+          text-transform: uppercase;
+          font-weight: 700;
+          color: var(--accent-primary);
+        }
+
+        /* Tablet */
+        @media (max-width: 1100px) {
+          .library-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+          .library-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+          .library-card {
+            padding: 2.5rem 1.5rem 2rem;
+            min-height: 0;
+          }
+          .library-card__medallion { width: 96px; height: 96px; }
+          .library-card__title { font-size: 1.45rem; }
+        }
       `}</style>
+
     </section>
   );
 }

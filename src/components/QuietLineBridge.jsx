@@ -20,32 +20,77 @@ export default function QuietLineBridge() {
         WebkitBackdropFilter: 'blur(16px) saturate(160%)',
         border: '1px solid rgba(188,116,78,0.20)',
         borderRadius: '999px',
-        padding: '0.75rem 1.25rem',
+        padding: '0.65rem 1.25rem 0.65rem 0.75rem',
         display: 'flex',
         alignItems: 'center',
-        gap: '0.75rem',
+        gap: '0.85rem',
         boxShadow: '0 20px 40px rgba(140,70,40,0.18), 0 4px 10px rgba(0,0,0,0.05)',
         textDecoration: 'none',
         color: 'var(--text-main)',
         cursor: 'pointer',
       }}
     >
+      {/* Actual book cover thumbnail with subtle 3D depth */}
       <motion.div
-        animate={{ scale: [1, 1.06, 1], boxShadow: ['2px 2px 5px rgba(0,0,0,0.2)', '2px 2px 14px rgba(216,154,92,0.55)', '2px 2px 5px rgba(0,0,0,0.2)'] }}
-        transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
+        whileHover={{ rotateY: 18, rotateX: 4 }}
+        transition={{ type: 'spring', stiffness: 220, damping: 18 }}
         style={{
-          width: '28px',
-          height: '36px',
-          background:
-            'linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(0,0,0,0.22) 100%), linear-gradient(135deg, var(--accent-amber), var(--accent-primary), var(--accent-deep))',
+          width: 36,
+          height: 50,
           borderRadius: '2px',
+          overflow: 'hidden',
+          position: 'relative',
+          boxShadow:
+            '0 6px 14px rgba(0,0,0,0.25), 0 2px 4px rgba(140,70,40,0.30)',
+          transformStyle: 'preserve-3d',
+          flexShrink: 0,
         }}
-      />
+      >
+        <img
+          src="/brand/book-cover-new.jpg"
+          alt="The Quiet Line — book cover"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            display: 'block',
+          }}
+        />
+        {/* Spine highlight — adds the "this is a real book" cue */}
+        <span
+          aria-hidden
+          style={{
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            width: 3,
+            background:
+              'linear-gradient(90deg, rgba(0,0,0,0.35), rgba(0,0,0,0))',
+          }}
+        />
+        {/* Soft warm halo on hover (animated by parent scale) */}
+        <motion.span
+          aria-hidden
+          animate={{ opacity: [0.0, 0.25, 0.0] }}
+          transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+          style={{
+            position: 'absolute',
+            inset: -8,
+            borderRadius: 4,
+            background:
+              'radial-gradient(circle at 50% 50%, rgba(216,154,92,0.5), transparent 70%)',
+            pointerEvents: 'none',
+            zIndex: -1,
+          }}
+        />
+      </motion.div>
+
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <span
           style={{
             fontSize: '9px',
-            letterSpacing: '0.2em',
+            letterSpacing: '0.22em',
             textTransform: 'uppercase',
             fontWeight: 700,
             color: 'var(--accent-primary)',
@@ -53,8 +98,23 @@ export default function QuietLineBridge() {
         >
           Order the book
         </span>
-        <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.95rem' }}>
-          The Quiet <em style={{ fontStyle: 'italic', color: 'var(--accent-primary)', fontWeight: 400 }}>Line</em>
+        <span
+          style={{
+            fontFamily: 'var(--font-heading)',
+            fontWeight: 700,
+            fontSize: '0.95rem',
+          }}
+        >
+          The Quiet{' '}
+          <em
+            style={{
+              fontStyle: 'italic',
+              color: 'var(--accent-primary)',
+              fontWeight: 400,
+            }}
+          >
+            Line
+          </em>
         </span>
       </div>
     </motion.a>
