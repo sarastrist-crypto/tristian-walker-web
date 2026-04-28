@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#D89A5C"/>
+      <stop offset="50%" stop-color="#BC744E"/>
+      <stop offset="100%" stop-color="#8B4A2A"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#F8F5EF"/>
+  <text x="50%" y="58%" text-anchor="middle" font-family="Merriweather, Georgia, serif" font-weight="700" font-size="40" fill="url(#g)">T</text>
+  <circle cx="48" cy="46" r="3" fill="#BC744E"/>
+</svg>
