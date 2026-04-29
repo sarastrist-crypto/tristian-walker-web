@@ -8,7 +8,7 @@ export default function Footer() {
         background:
           'radial-gradient(ellipse 800px 400px at 20% 0%, rgba(188,116,78,0.18), transparent 60%), var(--bg-ink)',
         color: 'var(--text-on-dark)',
-        padding: '5rem 0 2rem',
+        padding: 'clamp(3rem, 8vw, 5rem) 0 calc(env(safe-area-inset-bottom, 0px) + 6rem)',
         position: 'relative',
         overflow: 'hidden',
       }}

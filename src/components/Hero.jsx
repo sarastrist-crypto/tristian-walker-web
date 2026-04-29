@@ -33,9 +33,10 @@ export default function Hero() {
 
   return (
     <section
+      className="hero-section"
       style={{
-        minHeight: '100vh',
-        padding: '8rem 0 4rem',
+        minHeight: '100dvh',
+        padding: '7rem 0 4rem',
         background:
           'radial-gradient(ellipse 1200px 600px at 50% 0%, rgba(216,154,92,0.18), transparent 70%), radial-gradient(ellipse 800px 500px at 85% 60%, rgba(188,116,78,0.10), transparent 70%), linear-gradient(180deg, var(--bg-parchment) 0%, var(--bg-base) 100%)',
         display: 'flex',
@@ -45,11 +46,10 @@ export default function Hero() {
       }}
     >
       <div
-        className="wrap"
+        className="wrap hero-grid"
         style={{
           display: 'grid',
-          gridTemplateColumns: '1.25fr 1fr',
-          gap: '5rem',
+          gap: '3rem',
           alignItems: 'center',
           position: 'relative',
           zIndex: 2,
@@ -303,8 +303,9 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Scroll cue */}
+      {/* Scroll cue — hidden on mobile so it doesn't collide with the floating book CTA */}
       <motion.div
+        className="hero-scroll-cue"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.6, duration: 0.8 }}
@@ -332,6 +333,17 @@ export default function Hero() {
           style={{ width: '1px', height: '32px', background: 'var(--accent-primary)' }}
         />
       </motion.div>
+
+      <style>{`
+        .hero-grid { grid-template-columns: 1.25fr 1fr; }
+        @media (max-width: 900px) {
+          .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+          .hero-section { padding-top: 5.5rem; padding-bottom: 3rem; min-height: auto; }
+        }
+        @media (max-width: 600px) {
+          .hero-scroll-cue { display: none; }
+        }
+      `}</style>
     </section>
   );
 }

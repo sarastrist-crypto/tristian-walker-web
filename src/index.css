@@ -265,8 +265,47 @@ a { color: inherit; }
   }
 }
 
-/* Mobile niceties */
+/* ─── MOBILE OPTIMIZATION ──────────────────────────────────────── */
+/* Tablet & below */
 @media (max-width: 820px) {
   .wrap { padding: 0 1.25rem; }
   body  { font-size: 17px; }
+  /* Reduce huge section padding on smaller screens */
+  section { padding-left: 0; padding-right: 0; }
+  /* Touch-friendly minimum tap target */
+  .btn { min-height: 48px; padding: 0.85rem 1.5rem; font-size: 0.95rem; }
+}
+
+/* Phone */
+@media (max-width: 600px) {
+  body { font-size: 16px; line-height: 1.55; }
+  .wrap { padding: 0 1rem; }
+  /* Tighter top padding on full-bleed sections; the fixed nav already eats space */
+  section { padding-top: 4.5rem !important; padding-bottom: 4.5rem !important; }
+  /* Buttons fill width by default on phone for thumb reach */
+  .btn { width: 100%; padding: 0.95rem 1.25rem; }
+  h1 em, h2 em, h3 em { color: var(--accent-primary); }
+}
+
+/* Honor iPhone notch + home-indicator */
+@supports (padding: env(safe-area-inset-bottom)) {
+  body {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Inputs: larger tap, no iOS zoom */
+input, textarea, select, button {
+  font-size: 16px; /* prevents iOS auto-zoom on focus */
+}
+input, textarea {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Disable hover-only effects on coarse pointers (touch) so the page doesn't
+   feel "stuck" in a hover state after a tap */
+@media (hover: none) and (pointer: coarse) {
+  .library-card:hover { box-shadow: var(--shadow-md); }
+  .essay-card:hover    { box-shadow: var(--shadow-md); }
 }

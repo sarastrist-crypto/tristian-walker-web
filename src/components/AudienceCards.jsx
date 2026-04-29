@@ -83,13 +83,13 @@ export default function AudienceCards() {
           >
             <TiltCard
               whileHover={{ y: -6 }}
+              className="audience-card"
               style={{
                 background: 'var(--bg-surface)',
                 borderRadius: '18px',
-                padding: '3.5rem',
+                padding: 'clamp(1.75rem, 4vw, 3.5rem)',
                 display: 'grid',
-                gridTemplateColumns: '1fr 1.4fr',
-                gap: '3.5rem',
+                gap: 'clamp(2rem, 4vw, 3.5rem)',
                 boxShadow: 'var(--shadow-md)',
                 border: '1px solid rgba(0,0,0,0.03)',
                 position: 'relative',
@@ -108,7 +108,7 @@ export default function AudienceCards() {
                   transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                   style={{
                     fontFamily: 'var(--font-heading)', fontStyle: 'italic',
-                    fontSize: '5.5rem', lineHeight: 1, marginBottom: '1rem',
+                    fontSize: 'clamp(3.4rem, 8vw, 5.5rem)', lineHeight: 1, marginBottom: '1rem',
                     background: 'linear-gradient(135deg, var(--accent-deep), var(--accent-amber))',
                     WebkitBackgroundClip: 'text', backgroundClip: 'text',
                     color: 'transparent', WebkitTextFillColor: 'transparent',
@@ -119,7 +119,7 @@ export default function AudienceCards() {
                 <div style={{ fontSize: '12.5px', letterSpacing: '0.4em', textTransform: 'uppercase', color: 'var(--accent-primary)', fontWeight: 700, marginBottom: '1.25rem' }}>
                   For event organizers
                 </div>
-                <h3 style={{ fontSize: '2.1rem', letterSpacing: '-0.01em', margin: '0 0 1rem', lineHeight: 1.1 }}>
+                <h3 style={{ fontSize: 'clamp(1.6rem, 4vw, 2.1rem)', letterSpacing: '-0.01em', margin: '0 0 1rem', lineHeight: 1.15 }}>
                   A keynote built for rooms that can't <em style={{ fontStyle: 'italic', color: 'var(--accent-primary)' }}>afford a bad hour.</em>
                 </h3>
                 <div style={{ fontSize: '1.05rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-main)', marginBottom: '1rem' }}>
@@ -186,13 +186,13 @@ export default function AudienceCards() {
           >
             <TiltCard
               whileHover={{ y: -6 }}
+              className="audience-card"
               style={{
                 background: 'var(--bg-surface)',
                 borderRadius: '18px',
-                padding: '3.5rem',
+                padding: 'clamp(1.75rem, 4vw, 3.5rem)',
                 display: 'grid',
-                gridTemplateColumns: '1fr 1.4fr',
-                gap: '3.5rem',
+                gap: 'clamp(2rem, 4vw, 3.5rem)',
                 boxShadow: 'var(--shadow-md)',
                 border: '1px solid rgba(0,0,0,0.03)',
                 position: 'relative',
@@ -222,7 +222,7 @@ export default function AudienceCards() {
                 <div style={{ fontSize: '12.5px', letterSpacing: '0.4em', textTransform: 'uppercase', color: 'var(--accent-primary)', fontWeight: 700, marginBottom: '1.25rem' }}>
                   For readers
                 </div>
-                <h3 style={{ fontSize: '2.4rem', letterSpacing: '-0.01em', margin: '0 0 1rem', lineHeight: 1.1 }}>
+                <h3 style={{ fontSize: 'clamp(1.8rem, 4.5vw, 2.4rem)', letterSpacing: '-0.01em', margin: '0 0 1rem', lineHeight: 1.15 }}>
                   The Quiet <em style={{ fontStyle: 'italic', color: 'var(--accent-primary)' }}>Line.</em>
                 </h3>
                 <div style={{ fontSize: '1.05rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-main)', marginBottom: '1rem' }}>
@@ -267,7 +267,7 @@ export default function AudienceCards() {
                   transition={{ type: 'spring', stiffness: 250, damping: 18 }}
                   style={{
                     display: 'block',
-                    width: '250px',
+                    width: 'min(250px, 70vw)',
                     aspectRatio: '2/3',
                     backgroundColor: 'var(--bg-dark)',
                     boxShadow: '0 30px 60px rgba(140,70,40,0.35), 0 8px 20px rgba(0,0,0,0.18)',
@@ -300,6 +300,13 @@ export default function AudienceCards() {
           </motion.div>
         </div>
       </div>
+
+      <style>{`
+        .audience-card { grid-template-columns: 1fr 1.4fr; }
+        @media (max-width: 900px) {
+          .audience-card { grid-template-columns: 1fr; }
+        }
+      `}</style>
     </section>
   );
 }

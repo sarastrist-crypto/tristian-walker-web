@@ -48,7 +48,7 @@ function QuoteCard({ t, y }) {
           background: t.feature ? 'var(--bg-dark)' : '#fff',
           color: t.feature ? 'var(--text-light)' : 'var(--text-main)',
           borderRadius: '14px',
-          padding: t.feature ? '3rem' : '2.5rem',
+          padding: t.feature ? 'clamp(1.75rem, 4vw, 3rem)' : 'clamp(1.5rem, 3.5vw, 2.5rem)',
           boxShadow: t.feature
             ? '0 30px 60px rgba(140,70,40,0.30), 0 8px 20px rgba(0,0,0,0.18)'
             : 'var(--shadow-md)',
@@ -221,9 +221,9 @@ export default function Testimonials() {
         </motion.div>
 
         <div
+          className="testimonials-grid"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
             gap: '1.5rem',
             maxWidth: '1200px',
           }}
@@ -233,6 +233,13 @@ export default function Testimonials() {
           ))}
         </div>
       </div>
+
+      <style>{`
+        .testimonials-grid { grid-template-columns: repeat(3, 1fr); }
+        @media (max-width: 980px) {
+          .testimonials-grid { grid-template-columns: 1fr; }
+        }
+      `}</style>
     </section>
   );
 }

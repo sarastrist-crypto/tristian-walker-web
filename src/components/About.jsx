@@ -44,31 +44,31 @@ export default function About() {
     <section
       id="about"
       style={{
-        padding: '8rem 0',
+        padding: '7rem 0',
         background: 'var(--bg-base)',
         overflow: 'hidden',
         position: 'relative',
       }}
     >
       <motion.div
-        className="wrap"
+        className="wrap about-grid"
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-100px' }}
         style={{
           display: 'grid',
-          gridTemplateColumns: '1fr 1.4fr',
-          gap: '6rem',
+          gap: '4rem',
           alignItems: 'center',
         }}
       >
         <motion.div
           variants={itemVariants}
+          className="about-orbit"
           style={{
             position: 'relative',
             width: '100%',
-            height: '560px',
+            height: '520px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -284,6 +284,17 @@ export default function About() {
           </motion.p>
         </motion.div>
       </motion.div>
+
+      <style>{`
+        .about-grid { grid-template-columns: 1fr 1.4fr; }
+        @media (max-width: 900px) {
+          .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+          .about-orbit { height: 380px; }
+        }
+        @media (max-width: 600px) {
+          .about-orbit { height: 320px; }
+        }
+      `}</style>
     </section>
   );
 }

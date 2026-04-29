@@ -286,7 +286,7 @@ export default function Newsletter() {
             background: 'var(--bg-surface)',
             border: '1px solid rgba(0,0,0,0.04)',
             borderRadius: '18px',
-            padding: '3.5rem',
+            padding: 'clamp(1.75rem, 4.5vw, 3.5rem)',
             boxShadow:
               'var(--shadow-xl), 0 30px 60px -20px rgba(140,70,40,0.18)',
             position: 'relative',
@@ -410,7 +410,7 @@ export default function Newsletter() {
                 }}>
                   Which door brought you here?
                 </label>
-                <div style={{
+                <div className="door-grid" style={{
                   display: 'grid',
                   gridTemplateColumns: '1fr 1fr 1fr',
                   gap: '0.5rem',
@@ -502,11 +502,12 @@ export default function Newsletter() {
       </div>
 
       <style>{`
-        .newsletter-grid {
-          grid-template-columns: 1fr 1fr;
-        }
+        .newsletter-grid { grid-template-columns: 1fr 1fr; }
         @media (max-width: 980px) {
           .newsletter-grid { grid-template-columns: 1fr; gap: 3rem; }
+        }
+        @media (max-width: 420px) {
+          .door-grid { grid-template-columns: 1fr; }
         }
       `}</style>
     </section>

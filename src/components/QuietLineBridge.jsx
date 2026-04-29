@@ -10,24 +10,26 @@ export default function QuietLineBridge() {
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ delay: 1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       whileHover={{ scale: 1.05, y: -4 }}
+      className="quiet-line-bridge"
       style={{
         position: 'fixed',
-        bottom: '2rem',
-        right: '2rem',
+        bottom: 'calc(env(safe-area-inset-bottom, 0px) + 1.25rem)',
+        right: 'calc(env(safe-area-inset-right, 0px) + 1.25rem)',
         zIndex: 100,
         background: 'rgba(255, 255, 255, 0.86)',
         backdropFilter: 'blur(16px) saturate(160%)',
         WebkitBackdropFilter: 'blur(16px) saturate(160%)',
         border: '1px solid rgba(188,116,78,0.20)',
         borderRadius: '999px',
-        padding: '0.65rem 1.25rem 0.65rem 0.75rem',
+        padding: '0.6rem 1.1rem 0.6rem 0.6rem',
         display: 'flex',
         alignItems: 'center',
-        gap: '0.85rem',
+        gap: '0.75rem',
         boxShadow: '0 20px 40px rgba(140,70,40,0.18), 0 4px 10px rgba(0,0,0,0.05)',
         textDecoration: 'none',
         color: 'var(--text-main)',
         cursor: 'pointer',
+        maxWidth: 'calc(100vw - 2rem)',
       }}
     >
       {/* Actual book cover thumbnail with subtle 3D depth */}
@@ -86,7 +88,7 @@ export default function QuietLineBridge() {
         />
       </motion.div>
 
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <div className="qlb-text" style={{ display: 'flex', flexDirection: 'column' }}>
         <span
           style={{
             fontSize: '9px',
@@ -103,6 +105,7 @@ export default function QuietLineBridge() {
             fontFamily: 'var(--font-heading)',
             fontWeight: 700,
             fontSize: '0.95rem',
+            whiteSpace: 'nowrap',
           }}
         >
           The Quiet{' '}
@@ -117,6 +120,15 @@ export default function QuietLineBridge() {
           </em>
         </span>
       </div>
+
+      <style>{`
+        /* Phone: drop the second text line, keep just the cover icon — the
+           pill becomes a small circular shortcut that doesn't crowd content */
+        @media (max-width: 480px) {
+          .quiet-line-bridge .qlb-text { display: none; }
+          .quiet-line-bridge { padding: 0.45rem; border-radius: 999px; }
+        }
+      `}</style>
     </motion.a>
   );
 }
