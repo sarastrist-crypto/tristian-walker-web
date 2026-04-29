@@ -104,7 +104,7 @@ export default function Newsletter() {
         }}
       >
         {/* LEFT COLUMN — copy + letter-preview card fills the previously empty space */}
-        <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+        <motion.div {...(isMobile ? { initial: false } : { initial: { opacity: 0, x: -30 }, whileInView: { opacity: 1, x: 0 }, viewport: { once: true } })}>
           <div className="eyebrow">05 / The Residency</div>
           <RevealText
             as="h2"
@@ -121,11 +121,15 @@ export default function Newsletter() {
 
           {/* The letter-preview card — fills the empty space with a literary artifact */}
           <motion.div
-            initial={{ opacity: 0, y: 20, rotate: -1.2 }}
-            whileInView={{ opacity: 1, y: 0, rotate: -1.2 }}
-            whileHover={{ y: -4, rotate: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            {...(isMobile
+              ? { initial: false }
+              : {
+                  initial: { opacity: 0, y: 20, rotate: -1.2 },
+                  whileInView: { opacity: 1, y: 0, rotate: -1.2 },
+                  whileHover: { y: -4, rotate: 0 },
+                  viewport: { once: true },
+                  transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+                })}
             style={{
               position: 'relative',
               background:
@@ -283,10 +287,14 @@ export default function Newsletter() {
 
         {/* RIGHT COLUMN — form */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
+          {...(isMobile
+            ? { initial: false }
+            : {
+                initial: { opacity: 0, y: 30 },
+                whileInView: { opacity: 1, y: 0 },
+                viewport: { once: true },
+                transition: { delay: 0.2 },
+              })}
           style={{
             background: 'var(--bg-surface)',
             border: '1px solid rgba(0,0,0,0.04)',

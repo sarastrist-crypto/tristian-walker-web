@@ -54,10 +54,17 @@ export default function About() {
     >
       <motion.div
         className="wrap about-grid"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: '-100px' }}
+        // On mobile we skip the staggered fade-in entirely. The section just
+        // renders at full opacity immediately when scrolled into view. No
+        // wrapper-fade taking the H2 with it — the reported flicker source.
+        {...(isMobile
+          ? { initial: false }
+          : {
+              variants: containerVariants,
+              initial: 'hidden',
+              whileInView: 'visible',
+              viewport: { once: true, margin: '-100px' },
+            })}
         style={{
           display: 'grid',
           gap: '4rem',
@@ -65,7 +72,7 @@ export default function About() {
         }}
       >
         <motion.div
-          variants={itemVariants}
+          {...(isMobile ? { initial: false } : { variants: itemVariants })}
           className="about-orbit"
           style={{
             position: 'relative',
@@ -224,7 +231,7 @@ export default function About() {
         </motion.div>
 
         {/* Narrative */}
-        <motion.div variants={itemVariants}>
+        <motion.div {...(isMobile ? { initial: false } : { variants: itemVariants })}>
           <RevealText
             as="h2"
             style={{

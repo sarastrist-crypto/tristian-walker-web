@@ -64,10 +64,14 @@ export default function AudienceCards() {
 
       <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.8 }}
+          {...(isMobile
+            ? { initial: false }
+            : {
+                initial: { opacity: 0, y: 30 },
+                whileInView: { opacity: 1, y: 0 },
+                viewport: { once: true, margin: '-100px' },
+                transition: { duration: 0.8 },
+              })}
           style={{ textAlign: 'center', maxWidth: '760px', margin: '0 auto 4rem' }}
         >
           <div className="eyebrow">02 / Three rooms</div>
@@ -82,10 +86,14 @@ export default function AudienceCards() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
           {/* Card 1: Speaking */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
-            transition={{ duration: 0.7 }}
+            {...(isMobile
+              ? { initial: false }
+              : {
+                  initial: { opacity: 0, y: 40 },
+                  whileInView: { opacity: 1, y: 0 },
+                  viewport: { once: true, margin: '-50px' },
+                  transition: { duration: 0.7 },
+                })}
           >
             <TiltCard
               whileHover={{ y: -6 }}
@@ -108,10 +116,14 @@ export default function AudienceCards() {
               }} />
               <div>
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.85 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  {...(isMobile
+                    ? { initial: false }
+                    : {
+                        initial: { opacity: 0, scale: 0.85 },
+                        whileInView: { opacity: 1, scale: 1 },
+                        viewport: { once: true },
+                        transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+                      })}
                   style={{
                     fontFamily: 'var(--font-heading)', fontStyle: 'italic',
                     fontSize: 'clamp(3.4rem, 8vw, 5.5rem)', lineHeight: 1, marginBottom: '1rem',
@@ -161,11 +173,15 @@ export default function AudienceCards() {
                   {['The Foundation: Character at Scale', 'The Diagnosis: The Wall of Anonymity', 'The Reframe: The Compass of Presence', 'The Close: The Quiet Line & The Flicker'].map((item, i) => (
                     <motion.li
                       key={i}
-                      initial={{ opacity: 0, x: -12 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: 0.12 * i }}
-                      whileHover={{ x: 6, color: 'var(--accent-primary)' }}
+                      {...(isMobile
+                        ? { initial: false }
+                        : {
+                            initial: { opacity: 0, x: -12 },
+                            whileInView: { opacity: 1, x: 0 },
+                            viewport: { once: true },
+                            transition: { duration: 0.5, delay: 0.12 * i },
+                            whileHover: { x: 6, color: 'var(--accent-primary)' },
+                          })}
                       style={{
                         display: 'flex', gap: '1rem', padding: '1rem 0',
                         borderTop: i === 0 ? 'none' : '1px dashed rgba(0,0,0,0.08)',
@@ -185,10 +201,14 @@ export default function AudienceCards() {
 
           {/* Card 2: Book */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
-            transition={{ duration: 0.7 }}
+            {...(isMobile
+              ? { initial: false }
+              : {
+                  initial: { opacity: 0, y: 40 },
+                  whileInView: { opacity: 1, y: 0 },
+                  viewport: { once: true, margin: '-50px' },
+                  transition: { duration: 0.7 },
+                })}
           >
             <TiltCard
               whileHover={{ y: -6 }}
@@ -211,10 +231,14 @@ export default function AudienceCards() {
               }} />
               <div>
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.85 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  {...(isMobile
+                    ? { initial: false }
+                    : {
+                        initial: { opacity: 0, scale: 0.85 },
+                        whileInView: { opacity: 1, scale: 1 },
+                        viewport: { once: true },
+                        transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+                      })}
                   style={{
                     fontFamily: 'var(--font-heading)', fontStyle: 'italic',
                     fontSize: '5.5rem', lineHeight: 1, marginBottom: '1rem',

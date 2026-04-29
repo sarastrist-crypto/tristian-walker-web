@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import { BookOpen, Feather, Mic, User } from 'lucide-react';
 import RevealText from './RevealText';
+import { useReveal } from '../hooks/useReveal';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 const SHELVES = [
   {
@@ -50,6 +52,8 @@ const SHELVES = [
 ];
 
 export default function Library() {
+  const isMobile = useIsMobile();
+  const headerReveal = useReveal({ y: 24, duration: 0.7 });
   return (
     <section
       id="library"
@@ -63,10 +67,7 @@ export default function Library() {
     >
       <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.7 }}
+          {...headerReveal}
           style={{ textAlign: 'center', maxWidth: '760px', margin: '0 auto 4rem' }}
         >
           <div className="eyebrow">Everything · in one source</div>
@@ -94,11 +95,15 @@ export default function Library() {
                 href={shelf.href}
                 target={shelf.external ? '_blank' : undefined}
                 rel={shelf.external ? 'noreferrer' : undefined}
-                initial={{ opacity: 0, y: 36 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.65, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                whileHover={{ y: -8 }}
+                {...(isMobile
+                  ? { initial: false }
+                  : {
+                      initial: { opacity: 0, y: 36 },
+                      whileInView: { opacity: 1, y: 0 },
+                      viewport: { once: true, margin: '-50px' },
+                      transition: { duration: 0.65, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] },
+                      whileHover: { y: -8 },
+                    })}
                 className="library-card"
               >
                 {/* Top accent strip */}

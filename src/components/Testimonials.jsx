@@ -182,6 +182,7 @@ export default function Testimonials() {
 }
 
 function TestimonialsLayout({ containerRef, yTransforms }) {
+  const isMobile = useIsMobile();
 
   return (
     <section
@@ -207,9 +208,13 @@ function TestimonialsLayout({ containerRef, yTransforms }) {
 
       <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          {...(isMobile
+            ? { initial: false }
+            : {
+                initial: { opacity: 0, y: 30 },
+                whileInView: { opacity: 1, y: 0 },
+                viewport: { once: true },
+              })}
           style={{
             display: 'flex',
             justifyContent: 'space-between',
