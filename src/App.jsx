@@ -1,5 +1,4 @@
 import { BrowserRouter as Router } from 'react-router-dom';
-import { motion, useScroll, useTransform } from 'framer-motion';
 
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
@@ -15,23 +14,17 @@ import AmbientBackground from './components/AmbientBackground';
 import ScrollProgress from './components/ScrollProgress';
 
 function App() {
-  const { scrollYProgress } = useScroll();
-
-  // Subtle drift between two warm page tones across the whole scroll
-  const backgroundColor = useTransform(
-    scrollYProgress,
-    [0, 0.5, 1],
-    ['var(--bg-base)', 'var(--bg-parchment)', 'var(--bg-base)']
-  );
-
+  // Note: we deliberately do NOT animate page background on scroll. The previous
+  // setup combined a framer-motion useTransform with a CSS transition on the
+  // same property, which caused a constant ~0.5s lag during scroll and felt
+  // janky on mobile. Static base color + per-section gradients is smoother.
   return (
     <Router>
       <ScrollProgress />
-      <motion.div
+      <div
         style={{
-          backgroundColor,
+          backgroundColor: 'var(--bg-base)',
           minHeight: '100vh',
-          transition: 'background-color 0.5s ease-out',
           position: 'relative',
         }}
       >
@@ -48,7 +41,7 @@ function App() {
         </main>
         <Footer />
         <QuietLineBridge />
-      </motion.div>
+      </div>
     </Router>
   );
 }

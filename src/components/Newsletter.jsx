@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import RevealText from './RevealText';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 export default function Newsletter() {
+  const isMobile = useIsMobile();
   const [status, setStatus] = useState('idle');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -69,24 +71,27 @@ export default function Newsletter() {
         }}
       />
 
-      {/* Slow conic glow accent */}
-      <motion.div
-        aria-hidden
-        animate={{ rotate: 360 }}
-        transition={{ duration: 110, repeat: Infinity, ease: 'linear' }}
-        style={{
-          position: 'absolute',
-          right: '-220px',
-          top: '15%',
-          width: 560,
-          height: 560,
-          borderRadius: '50%',
-          background:
-            'conic-gradient(from 0deg, rgba(216,154,92,0.10), transparent 60%, rgba(188,116,78,0.10))',
-          filter: 'blur(10px)',
-          pointerEvents: 'none',
-        }}
-      />
+      {/* Slow conic glow accent — desktop only (constant repaint on mobile). */}
+      {!isMobile && (
+        <motion.div
+          aria-hidden
+          animate={{ rotate: 360 }}
+          transition={{ duration: 110, repeat: Infinity, ease: 'linear' }}
+          style={{
+            position: 'absolute',
+            right: '-220px',
+            top: '15%',
+            width: 560,
+            height: 560,
+            borderRadius: '50%',
+            background:
+              'conic-gradient(from 0deg, rgba(216,154,92,0.10), transparent 60%, rgba(188,116,78,0.10))',
+            filter: 'blur(10px)',
+            pointerEvents: 'none',
+            willChange: 'transform',
+          }}
+        />
+      )}
 
       <div
         className="wrap newsletter-grid"

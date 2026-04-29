@@ -56,6 +56,14 @@
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 
+/* overflow-x: clip is the modern equivalent of overflow-x: hidden, but it
+   does NOT create a scroll container. That difference matters on iOS Safari
+   — overflow-x: hidden on body can make position:fixed elements jitter
+   relative to scroll content. clip avoids that entirely. */
+html, body {
+  overflow-x: clip;
+}
+
 body {
   margin: 0;
   color: var(--text-main);
@@ -65,7 +73,6 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   background: var(--bg-base);
-  overflow-x: hidden;
 }
 
 h1, h2, h3, h4 {

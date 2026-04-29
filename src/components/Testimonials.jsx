@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform, useMotionValue } from 'framer-motion';
 import { useRef } from 'react';
 import RevealText from './RevealText';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 const TESTIMONIALS = [
   {
@@ -150,10 +151,18 @@ function QuoteCard({ t, y }) {
 
 export default function Testimonials() {
   const containerRef = useRef(null);
+  const isMobile = useIsMobile();
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ['start end', 'end start'] });
-  const y1 = useTransform(scrollYProgress, [0, 1], [100, -100]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [40, -40]);
-  const y3 = useTransform(scrollYProgress, [0, 1], [140, -140]);
+
+  // Parallax ranges feel rich on desktop. On mobile the cards stack to one
+  // column and the offset values caused them to overlap and "bob" against
+  // each other during scroll — the source of the jumpy feeling. Setting all
+  // three transforms to a flat 0 keeps the cards still and lets native
+  // momentum scroll do its thing.
+  const range = isMobile ? [0, 0] : null;
+  const y1 = useTransform(scrollYProgress, [0, 1], range ?? [100, -100]);
+  const y2 = useTransform(scrollYProgress, [0, 1], range ?? [40, -40]);
+  const y3 = useTransform(scrollYProgress, [0, 1], range ?? [140, -140]);
   const yTransforms = [y1, y2, y3];
 
   return (

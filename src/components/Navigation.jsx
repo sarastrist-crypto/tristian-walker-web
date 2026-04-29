@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 const LINKS = [
   { href: '#about',      label: 'About' },
@@ -13,6 +14,7 @@ const LINKS = [
 
 export default function Navigation() {
   const { scrollY } = useScroll();
+  const isMobile = useIsMobile();
   const [isScrolled, setIsScrolled] = useState(false);
   const [hoverIndex, setHoverIndex] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -49,14 +51,27 @@ export default function Navigation() {
   return (
     <>
       <motion.nav
-        initial={{ backgroundColor: 'rgba(248,245,239,0)', backdropFilter: 'blur(0px)' }}
+        // On mobile we deliberately skip backdrop-filter — it's the single
+        // biggest cause of janky scroll on iOS Safari. Solid color with a hair
+        // of transparency gives a similar feel at zero GPU cost.
+        initial={false}
         animate={{
-          backgroundColor: isScrolled || mobileOpen ? 'rgba(248, 245, 239, 0.92)' : 'rgba(248,245,239,0)',
-          backdropFilter: isScrolled || mobileOpen ? 'blur(16px) saturate(160%)' : 'blur(0px)',
-          borderBottom: isScrolled ? '1px solid rgba(188,116,78,0.12)' : '1px solid transparent',
+          backgroundColor:
+            isScrolled || mobileOpen
+              ? isMobile
+                ? 'rgba(248, 245, 239, 0.97)'
+                : 'rgba(248, 245, 239, 0.86)'
+              : 'rgba(248, 245, 239, 0)',
+          backdropFilter:
+            (isScrolled || mobileOpen) && !isMobile
+              ? 'blur(16px) saturate(160%)'
+              : 'blur(0px)',
+          borderBottom: isScrolled
+            ? '1px solid rgba(188,116,78,0.12)'
+            : '1px solid transparent',
           boxShadow: isScrolled ? '0 8px 32px rgba(140,70,40,0.06)' : 'none',
         }}
-        transition={{ duration: 0.4, ease: 'easeInOut' }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
         className="nav-bar"
         style={{
           position: 'fixed',
@@ -247,12 +262,14 @@ export default function Navigation() {
               right: 0,
               bottom: 0,
               zIndex: 75,
+              // Fully opaque cream — no backdrop-filter. Mobile Safari renders
+              // a fixed solid layer cheaply; backdrop-filter on a fullscreen
+              // overlay is one of the worst-performing patterns there is.
               background:
-                'linear-gradient(180deg, rgba(248,245,239,0.98) 0%, rgba(253,252,248,0.98) 100%)',
-              backdropFilter: 'blur(20px) saturate(160%)',
-              WebkitBackdropFilter: 'blur(20px) saturate(160%)',
+                'linear-gradient(180deg, var(--bg-base) 0%, var(--bg-parchment) 100%)',
               padding: '2rem 1.5rem calc(env(safe-area-inset-bottom) + 2rem)',
               overflowY: 'auto',
+              WebkitOverflowScrolling: 'touch',
             }}
           >
             <div

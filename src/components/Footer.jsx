@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 export default function Footer() {
+  const isMobile = useIsMobile();
   return (
     <footer
       id="contact"
@@ -13,23 +15,28 @@ export default function Footer() {
         overflow: 'hidden',
       }}
     >
-      <motion.div
-        aria-hidden
-        animate={{ rotate: 360 }}
-        transition={{ duration: 130, repeat: Infinity, ease: 'linear' }}
-        style={{
-          position: 'absolute',
-          top: '-200px',
-          right: '-200px',
-          width: 600,
-          height: 600,
-          borderRadius: '50%',
-          background:
-            'conic-gradient(from 0deg, rgba(216,154,92,0.10), transparent 60%, rgba(188,116,78,0.10))',
-          filter: 'blur(40px)',
-          pointerEvents: 'none',
-        }}
-      />
+      {/* Decorative conic glow — desktop only. On mobile the constant rotation
+          repaints a 600px filtered surface every frame for no visible benefit. */}
+      {!isMobile && (
+        <motion.div
+          aria-hidden
+          animate={{ rotate: 360 }}
+          transition={{ duration: 130, repeat: Infinity, ease: 'linear' }}
+          style={{
+            position: 'absolute',
+            top: '-200px',
+            right: '-200px',
+            width: 600,
+            height: 600,
+            borderRadius: '50%',
+            background:
+              'conic-gradient(from 0deg, rgba(216,154,92,0.10), transparent 60%, rgba(188,116,78,0.10))',
+            filter: 'blur(40px)',
+            pointerEvents: 'none',
+            willChange: 'transform',
+          }}
+        />
+      )}
 
       <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
         <div

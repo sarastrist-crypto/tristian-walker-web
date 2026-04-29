@@ -1,6 +1,7 @@
 import { motion, useInView, animate } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import RevealText from './RevealText';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 function CountUp({ to = 20, duration = 2 }) {
   const [val, setVal] = useState(0);
@@ -21,6 +22,7 @@ function CountUp({ to = 20, duration = 2 }) {
 }
 
 export default function About() {
+  const isMobile = useIsMobile();
   const containerVariants = {
     hidden:  { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.3 } },
@@ -129,30 +131,27 @@ export default function About() {
               </div>
             </motion.div>
 
-            {/* Rotating outer ring */}
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 80, repeat: Infinity, ease: 'linear' }}
-              style={{
-                position: 'absolute',
-                inset: '8%',
-                borderRadius: '50%',
-                border: '1px dashed rgba(188,116,78,0.30)',
-                zIndex: 1,
-              }}
-            />
-            {/* Counter-rotating inner ring */}
-            <motion.div
-              animate={{ rotate: -360 }}
-              transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
-              style={{
-                position: 'absolute',
-                inset: '28%',
-                borderRadius: '50%',
-                border: '1px solid rgba(188,116,78,0.10)',
-                zIndex: 1,
-              }}
-            />
+            {/* Rings — same hairlines either way. Rotation only on desktop;
+                mobile renders them static to avoid permanent paint cycles. */}
+            {isMobile ? (
+              <>
+                <div style={{ position: 'absolute', inset: '8%', borderRadius: '50%', border: '1px dashed rgba(188,116,78,0.30)', zIndex: 1 }} />
+                <div style={{ position: 'absolute', inset: '28%', borderRadius: '50%', border: '1px solid rgba(188,116,78,0.10)', zIndex: 1 }} />
+              </>
+            ) : (
+              <>
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 80, repeat: Infinity, ease: 'linear' }}
+                  style={{ position: 'absolute', inset: '8%', borderRadius: '50%', border: '1px dashed rgba(188,116,78,0.30)', zIndex: 1, willChange: 'transform' }}
+                />
+                <motion.div
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
+                  style={{ position: 'absolute', inset: '28%', borderRadius: '50%', border: '1px solid rgba(188,116,78,0.10)', zIndex: 1, willChange: 'transform' }}
+                />
+              </>
+            )}
             {/* Soft inner glow */}
             <div
               aria-hidden
@@ -172,18 +171,20 @@ export default function About() {
                 key={i}
                 initial={{ x: moon.x, opacity: 0 }}
                 whileInView={{ opacity: 1 }}
-                animate={{ y: [-7, 7, -7] }}
+                animate={isMobile ? undefined : { y: [-7, 7, -7] }}
                 whileHover={{ scale: 1.06, boxShadow: '0 14px 30px rgba(140,70,40,0.18)' }}
                 transition={{
                   opacity: { duration: 1 },
-                  y: { duration: 7, delay: moon.delay, repeat: Infinity, ease: 'easeInOut' },
+                  y: isMobile ? { duration: 0 } : { duration: 7, delay: moon.delay, repeat: Infinity, ease: 'easeInOut' },
                   scale: { type: 'spring', stiffness: 320, damping: 18 },
                 }}
                 style={{
                   position: 'absolute',
                   top: moon.top, bottom: moon.bottom, left: moon.left, right: moon.right,
-                  background: 'rgba(255,255,255,0.95)',
-                  backdropFilter: 'blur(12px)',
+                  // Solid background instead of backdrop-blur — removing the
+                  // blur lets the y-bob animation composite without forcing
+                  // the GPU to re-blur the underlying area on every frame.
+                  background: '#fff',
                   padding: '0.75rem 1.25rem',
                   borderRadius: '99px',
                   border: '1px solid rgba(188,116,78,0.25)',

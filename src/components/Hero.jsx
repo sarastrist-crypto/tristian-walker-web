@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import RevealText from './RevealText';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 const VARIANTS = [
   <>A lecture on <em>Professional Drift</em> — and the practice that reclaims presence.</>,
@@ -10,6 +11,7 @@ const VARIANTS = [
 
 export default function Hero() {
   const [variantIndex, setVariantIndex] = useState(0);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -189,19 +191,23 @@ export default function Hero() {
           transition={{ duration: 1.2, delay: 0.2 }}
           style={{ position: 'relative', perspective: '1200px' }}
         >
-          {/* Decorative ambient ring behind portrait */}
-          <motion.div
-            aria-hidden
-            animate={{ rotate: 360 }}
-            transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
-            style={{
-              position: 'absolute',
-              inset: '-8%',
-              borderRadius: '50%',
-              border: '1px dashed rgba(188,116,78,0.25)',
-              zIndex: 0,
-            }}
-          />
+          {/* Decorative ambient ring behind portrait — desktop only.
+              Continuous rotation = continuous paint; phones can't spare it. */}
+          {!isMobile && (
+            <motion.div
+              aria-hidden
+              animate={{ rotate: 360 }}
+              transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
+              style={{
+                position: 'absolute',
+                inset: '-8%',
+                borderRadius: '50%',
+                border: '1px dashed rgba(188,116,78,0.25)',
+                zIndex: 0,
+                willChange: 'transform',
+              }}
+            />
+          )}
           {/* Glow */}
           <div
             aria-hidden
@@ -216,8 +222,8 @@ export default function Hero() {
           />
 
           <motion.div
-            onMouseMove={handleMove}
-            onMouseLeave={handleLeave}
+            onMouseMove={isMobile ? undefined : handleMove}
+            onMouseLeave={isMobile ? undefined : handleLeave}
             style={{
               position: 'relative',
               aspectRatio: '4/5',
@@ -226,8 +232,8 @@ export default function Hero() {
               boxShadow: 'var(--shadow-warm)',
               background: 'linear-gradient(180deg, var(--bg-dark), var(--bg-ink))',
               transformStyle: 'preserve-3d',
-              rotateX: rx,
-              rotateY: ry,
+              rotateX: isMobile ? 0 : rx,
+              rotateY: isMobile ? 0 : ry,
               zIndex: 2,
             }}
           >

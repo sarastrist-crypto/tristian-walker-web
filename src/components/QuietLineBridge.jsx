@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 export default function QuietLineBridge() {
+  const isMobile = useIsMobile();
   return (
     <motion.a
       href="https://quietlinebook.com"
@@ -16,9 +18,13 @@ export default function QuietLineBridge() {
         bottom: 'calc(env(safe-area-inset-bottom, 0px) + 1.25rem)',
         right: 'calc(env(safe-area-inset-right, 0px) + 1.25rem)',
         zIndex: 100,
-        background: 'rgba(255, 255, 255, 0.86)',
-        backdropFilter: 'blur(16px) saturate(160%)',
-        WebkitBackdropFilter: 'blur(16px) saturate(160%)',
+        // Backdrop-filter on a fixed pill is one of iOS Safari's most
+        // expensive scroll-time operations because the underlying area has
+        // to be re-blurred every frame as content scrolls underneath it.
+        // Use a solid near-white on mobile and keep the glass effect on desktop.
+        background: isMobile ? 'rgba(255, 255, 255, 0.97)' : 'rgba(255, 255, 255, 0.86)',
+        backdropFilter: isMobile ? 'none' : 'blur(16px) saturate(160%)',
+        WebkitBackdropFilter: isMobile ? 'none' : 'blur(16px) saturate(160%)',
         border: '1px solid rgba(188,116,78,0.20)',
         borderRadius: '999px',
         padding: '0.6rem 1.1rem 0.6rem 0.6rem',
@@ -34,7 +40,7 @@ export default function QuietLineBridge() {
     >
       {/* Actual book cover thumbnail with subtle 3D depth */}
       <motion.div
-        whileHover={{ rotateY: 18, rotateX: 4 }}
+        whileHover={isMobile ? undefined : { rotateY: 18, rotateX: 4 }}
         transition={{ type: 'spring', stiffness: 220, damping: 18 }}
         style={{
           width: 36,
@@ -71,21 +77,23 @@ export default function QuietLineBridge() {
               'linear-gradient(90deg, rgba(0,0,0,0.35), rgba(0,0,0,0))',
           }}
         />
-        {/* Soft warm halo on hover (animated by parent scale) */}
-        <motion.span
-          aria-hidden
-          animate={{ opacity: [0.0, 0.25, 0.0] }}
-          transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-          style={{
-            position: 'absolute',
-            inset: -8,
-            borderRadius: 4,
-            background:
-              'radial-gradient(circle at 50% 50%, rgba(216,154,92,0.5), transparent 70%)',
-            pointerEvents: 'none',
-            zIndex: -1,
-          }}
-        />
+        {/* Soft warm halo — desktop only (constant repaint isn't worth it on phones). */}
+        {!isMobile && (
+          <motion.span
+            aria-hidden
+            animate={{ opacity: [0.0, 0.25, 0.0] }}
+            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+            style={{
+              position: 'absolute',
+              inset: -8,
+              borderRadius: 4,
+              background:
+                'radial-gradient(circle at 50% 50%, rgba(216,154,92,0.5), transparent 70%)',
+              pointerEvents: 'none',
+              zIndex: -1,
+            }}
+          />
+        )}
       </motion.div>
 
       <div className="qlb-text" style={{ display: 'flex', flexDirection: 'column' }}>
