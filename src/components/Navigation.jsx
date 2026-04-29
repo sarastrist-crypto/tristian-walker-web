@@ -101,7 +101,7 @@ export default function Navigation() {
           >
             Tristian Walker
             <motion.em
-              animate={{ opacity: [1, 0.35, 1] }}
+              animate={isMobile ? undefined : { opacity: [1, 0.35, 1] }}
               transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
               style={{
                 color: 'var(--accent-primary)',

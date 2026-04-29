@@ -1,6 +1,7 @@
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import RevealText from './RevealText';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 function TiltCard({ children, ...rest }) {
   const ref = useRef(null);
@@ -30,6 +31,7 @@ function TiltCard({ children, ...rest }) {
 }
 
 export default function AudienceCards() {
+  const isMobile = useIsMobile();
   return (
     <section
       id="book"
@@ -40,21 +42,25 @@ export default function AudienceCards() {
         overflow: 'hidden',
       }}
     >
-      {/* Soft accent orb */}
-      <div
-        aria-hidden
-        style={{
-          position: 'absolute',
-          top: '20%',
-          right: '-10%',
-          width: 500,
-          height: 500,
-          background:
-            'radial-gradient(circle, rgba(216,154,92,0.18), transparent 70%)',
-          filter: 'blur(60px)',
-          pointerEvents: 'none',
-        }}
-      />
+      {/* Soft accent orb — desktop only. blur(60px) on a 500px element
+          is permanently being filtered by the GPU; not worth it on mobile
+          when the section already has its own warm gradient background. */}
+      {!isMobile && (
+        <div
+          aria-hidden
+          style={{
+            position: 'absolute',
+            top: '20%',
+            right: '-10%',
+            width: 500,
+            height: 500,
+            background:
+              'radial-gradient(circle, rgba(216,154,92,0.18), transparent 70%)',
+            filter: 'blur(60px)',
+            pointerEvents: 'none',
+          }}
+        />
+      )}
 
       <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
         <motion.div

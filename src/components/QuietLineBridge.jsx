@@ -48,8 +48,11 @@ export default function QuietLineBridge() {
           borderRadius: '2px',
           overflow: 'hidden',
           position: 'relative',
-          boxShadow:
-            '0 6px 14px rgba(0,0,0,0.25), 0 2px 4px rgba(140,70,40,0.30)',
+          // Static shadow (no animated pulse). Animating box-shadow on a
+          // position:fixed element forces continuous repaint of the
+          // shadowed area, which felt like a "twitch" at the bottom of
+          // the screen during scroll.
+          boxShadow: '0 6px 14px rgba(0,0,0,0.25), 0 2px 4px rgba(140,70,40,0.30)',
           transformStyle: 'preserve-3d',
           flexShrink: 0,
         }}

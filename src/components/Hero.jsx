@@ -13,12 +13,17 @@ export default function Hero() {
   const [variantIndex, setVariantIndex] = useState(0);
   const isMobile = useIsMobile();
 
+  // Cycle headlines on desktop only. On mobile every cycle was running
+  // a `filter: blur(8px)` animation on a 5rem heading + an empty gap from
+  // AnimatePresence mode="wait" — easily perceived as a "flicker" when
+  // scrolling past. A single confident headline reads cleaner anyway.
   useEffect(() => {
+    if (isMobile) return;
     const timer = setInterval(() => {
       setVariantIndex((prev) => (prev + 1) % VARIANTS.length);
     }, 6500);
     return () => clearInterval(timer);
-  }, []);
+  }, [isMobile]);
 
   // Portrait parallax tilt
   const mx = useMotionValue(0);
@@ -79,9 +84,9 @@ export default function Hero() {
             }}
           >
             <motion.div
-              animate={{ width: [44, 64, 44] }}
+              animate={isMobile ? undefined : { width: [44, 64, 44] }}
               transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
-              style={{ height: '1px', background: 'var(--accent-primary)' }}
+              style={{ width: isMobile ? 44 : undefined, height: '1px', background: 'var(--accent-primary)' }}
             />
             Author · Keynote Speaker · Advisor
           </motion.div>
@@ -123,17 +128,23 @@ export default function Hero() {
                 zIndex: 10,
               }}
             >
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={variantIndex}
-                  initial={{ opacity: 0, y: 18, filter: 'blur(8px)' }}
-                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                  exit={{ opacity: 0, y: -18, filter: 'blur(8px)' }}
-                  transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  {VARIANTS[variantIndex]}
-                </motion.div>
-              </AnimatePresence>
+              {isMobile ? (
+                // Static, single headline on phones — no rotation, no blur,
+                // no AnimatePresence gap. The cleanest possible read.
+                <div>{VARIANTS[0]}</div>
+              ) : (
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={variantIndex}
+                    initial={{ opacity: 0, y: 18, filter: 'blur(8px)' }}
+                    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    exit={{ opacity: 0, y: -18, filter: 'blur(8px)' }}
+                    transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    {VARIANTS[variantIndex]}
+                  </motion.div>
+                </AnimatePresence>
+              )}
             </h1>
           </div>
 
@@ -208,18 +219,23 @@ export default function Hero() {
               }}
             />
           )}
-          {/* Glow */}
-          <div
-            aria-hidden
-            style={{
-              position: 'absolute',
-              inset: '-12%',
-              background:
-                'radial-gradient(circle at 30% 30%, rgba(216,154,92,0.45), transparent 60%)',
-              filter: 'blur(40px)',
-              zIndex: 0,
-            }}
-          />
+          {/* Soft warm glow behind portrait — desktop only.
+              filter: blur(40px) on a 600px+ surface is one of the most
+              expensive paints a phone GPU can be asked to do, and it stays
+              static so the cost is paid every scroll frame. */}
+          {!isMobile && (
+            <div
+              aria-hidden
+              style={{
+                position: 'absolute',
+                inset: '-12%',
+                background:
+                  'radial-gradient(circle at 30% 30%, rgba(216,154,92,0.45), transparent 60%)',
+                filter: 'blur(40px)',
+                zIndex: 0,
+              }}
+            />
+          )}
 
           <motion.div
             onMouseMove={isMobile ? undefined : handleMove}
@@ -309,36 +325,40 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Scroll cue — hidden on mobile so it doesn't collide with the floating book CTA */}
-      <motion.div
-        className="hero-scroll-cue"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.6, duration: 0.8 }}
-        style={{
-          position: 'absolute',
-          bottom: '2rem',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          fontSize: '10px',
-          letterSpacing: '0.4em',
-          textTransform: 'uppercase',
-          fontWeight: 700,
-          color: 'var(--text-subtle)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '.6rem',
-          zIndex: 2,
-        }}
-      >
-        Scroll
+      {/* Scroll cue — desktop only. Was display:none on mobile via CSS but
+          framer-motion still ran the keyframe animation in JS for an
+          invisible element, wasting frames. Gating in JSX avoids that. */}
+      {!isMobile && (
         <motion.div
-          animate={{ y: [0, 10, 0], opacity: [0.3, 1, 0.3] }}
-          transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
-          style={{ width: '1px', height: '32px', background: 'var(--accent-primary)' }}
-        />
-      </motion.div>
+          className="hero-scroll-cue"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.6, duration: 0.8 }}
+          style={{
+            position: 'absolute',
+            bottom: '2rem',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            fontSize: '10px',
+            letterSpacing: '0.4em',
+            textTransform: 'uppercase',
+            fontWeight: 700,
+            color: 'var(--text-subtle)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '.6rem',
+            zIndex: 2,
+          }}
+        >
+          Scroll
+          <motion.div
+            animate={{ y: [0, 10, 0], opacity: [0.3, 1, 0.3] }}
+            transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+            style={{ width: '1px', height: '32px', background: 'var(--accent-primary)' }}
+          />
+        </motion.div>
+      )}
 
       <style>{`
         .hero-grid { grid-template-columns: 1.25fr 1fr; }

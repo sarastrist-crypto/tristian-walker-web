@@ -88,9 +88,10 @@ export default function About() {
               margin: '0 auto',
             }}
           >
-            {/* Static planet — pulsing */}
+            {/* Static planet — pulses on desktop only. Subtle and gentle but
+                still a transform every frame; cumulative cost on mobile. */}
             <motion.div
-              animate={{ scale: [1, 1.04, 1] }}
+              animate={isMobile ? undefined : { scale: [1, 1.04, 1] }}
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
               style={{
                 position: 'relative',
@@ -152,19 +153,23 @@ export default function About() {
                 />
               </>
             )}
-            {/* Soft inner glow */}
-            <div
-              aria-hidden
-              style={{
-                position: 'absolute',
-                inset: '20%',
-                borderRadius: '50%',
-                background:
-                  'radial-gradient(circle at 50% 50%, rgba(216,154,92,0.30), transparent 70%)',
-                filter: 'blur(20px)',
-                zIndex: 0,
-              }}
-            />
+            {/* Soft inner glow — desktop only. blur(20px) on a transformed
+                surface costs paint each frame; the radial-gradient alone
+                reads fine on mobile without the additional filter. */}
+            {!isMobile && (
+              <div
+                aria-hidden
+                style={{
+                  position: 'absolute',
+                  inset: '20%',
+                  borderRadius: '50%',
+                  background:
+                    'radial-gradient(circle at 50% 50%, rgba(216,154,92,0.30), transparent 70%)',
+                  filter: 'blur(20px)',
+                  zIndex: 0,
+                }}
+              />
+            )}
 
             {moons.map((moon, i) => (
               <motion.div
@@ -203,7 +208,7 @@ export default function About() {
                 }}
               >
                 <motion.div
-                  animate={{ scale: [1, 1.4, 1], opacity: [1, 0.5, 1] }}
+                  animate={isMobile ? undefined : { scale: [1, 1.4, 1], opacity: [1, 0.5, 1] }}
                   transition={{ duration: 2, delay: i * 0.2, repeat: Infinity, ease: 'easeInOut' }}
                   style={{
                     width: '5px',
@@ -240,7 +245,7 @@ export default function About() {
             }}
           >
             <motion.div
-              animate={{ opacity: [0.4, 1, 0.4] }}
+              animate={isMobile ? undefined : { opacity: [0.4, 1, 0.4] }}
               transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
               style={{
                 position: 'absolute',
@@ -277,9 +282,9 @@ export default function About() {
             }}
           >
             <motion.span
-              animate={{ width: [16, 32, 16] }}
+              animate={isMobile ? undefined : { width: [16, 32, 16] }}
               transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-              style={{ height: 1, background: 'var(--accent-primary)', display: 'inline-block' }}
+              style={{ width: isMobile ? 24 : undefined, height: 1, background: 'var(--accent-primary)', display: 'inline-block' }}
             />
             From drift to direction, one honest reckoning at a time.
           </motion.p>
