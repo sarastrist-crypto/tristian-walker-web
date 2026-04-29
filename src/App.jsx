@@ -1,4 +1,4 @@
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
@@ -12,6 +12,28 @@ import Footer from './components/Footer';
 import QuietLineBridge from './components/QuietLineBridge';
 import AmbientBackground from './components/AmbientBackground';
 import ScrollProgress from './components/ScrollProgress';
+import EssayPage from './components/EssayPage';
+import EssayIndex from './components/EssayIndex';
+
+function HomePage() {
+  return (
+    <>
+      <AmbientBackground />
+      <Navigation />
+      <main style={{ position: 'relative', zIndex: 1 }}>
+        <Hero />
+        <About />
+        <Library />
+        <AudienceCards />
+        <Testimonials />
+        <Writing />
+        <Newsletter />
+      </main>
+      <Footer />
+      <QuietLineBridge />
+    </>
+  );
+}
 
 function App() {
   // Note: we deliberately do NOT animate page background on scroll. The previous
@@ -28,19 +50,12 @@ function App() {
           position: 'relative',
         }}
       >
-        <AmbientBackground />
-        <Navigation />
-        <main style={{ position: 'relative', zIndex: 1 }}>
-          <Hero />
-          <About />
-          <Library />
-          <AudienceCards />
-          <Testimonials />
-          <Writing />
-          <Newsletter />
-        </main>
-        <Footer />
-        <QuietLineBridge />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/writing" element={<EssayIndex />} />
+          <Route path="/writing/:slug" element={<EssayPage />} />
+          <Route path="*" element={<HomePage />} />
+        </Routes>
       </div>
     </Router>
   );
