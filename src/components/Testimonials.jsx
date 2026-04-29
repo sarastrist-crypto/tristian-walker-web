@@ -149,21 +149,39 @@ function QuoteCard({ t, y }) {
   );
 }
 
-export default function Testimonials() {
+// Parallax variant — only mounts on desktop. By extracting the useScroll +
+// useTransform calls into their own component, we ensure the scroll-linked
+// motion-value pipeline is NEVER set up on mobile. (Hooks only run when the
+// component renders.)
+function ParallaxGrid({ children }) {
   const containerRef = useRef(null);
-  const isMobile = useIsMobile();
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ['start end', 'end start'] });
+  const y1 = useTransform(scrollYProgress, [0, 1], [100, -100]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [40, -40]);
+  const y3 = useTransform(scrollYProgress, [0, 1], [140, -140]);
+  return children({ containerRef, yTransforms: [y1, y2, y3] });
+}
 
-  // Parallax ranges feel rich on desktop. On mobile the cards stack to one
-  // column and the offset values caused them to overlap and "bob" against
-  // each other during scroll — the source of the jumpy feeling. Setting all
-  // three transforms to a flat 0 keeps the cards still and lets native
-  // momentum scroll do its thing.
-  const range = isMobile ? [0, 0] : null;
-  const y1 = useTransform(scrollYProgress, [0, 1], range ?? [100, -100]);
-  const y2 = useTransform(scrollYProgress, [0, 1], range ?? [40, -40]);
-  const y3 = useTransform(scrollYProgress, [0, 1], range ?? [140, -140]);
-  const yTransforms = [y1, y2, y3];
+export default function Testimonials() {
+  const isMobile = useIsMobile();
+  const staticRef = useRef(null);
+  const flatY = useMotionValue(0);
+
+  if (isMobile) {
+    return (
+      <TestimonialsLayout containerRef={staticRef} yTransforms={[flatY, flatY, flatY]} />
+    );
+  }
+  return (
+    <ParallaxGrid>
+      {({ containerRef, yTransforms }) => (
+        <TestimonialsLayout containerRef={containerRef} yTransforms={yTransforms} />
+      )}
+    </ParallaxGrid>
+  );
+}
+
+function TestimonialsLayout({ containerRef, yTransforms }) {
 
   return (
     <section

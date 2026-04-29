@@ -1,15 +1,15 @@
+import { createElement } from 'react';
 import { motion } from 'framer-motion';
 import { Children, isValidElement } from 'react';
 import { useGentleMotion } from '../hooks/useIsMobile';
 
 /**
- * RevealText splits children into words and animates each word up
- * on scroll into view (desktop). On mobile or with reduced-motion preferred,
- * it falls back to a single fade-up of the whole block — same intent,
- * a fraction of the work, no risk of "word-by-word stutter" during scroll.
+ * Desktop: per-word stagger reveal on scroll into view.
+ * Mobile / reduced-motion: TRUE pass-through. The element renders as plain
+ * HTML with zero motion props — no IntersectionObserver, no transforms,
+ * no opacity tweens. The text is just there when you scroll to it.
  *
- * Usage:
- *   <RevealText as="h1" style={...}>The room goes <em>still</em>.</RevealText>
+ * That's the smoothest possible read on a phone.
  */
 export default function RevealText({
   as = 'span',
@@ -24,26 +24,14 @@ export default function RevealText({
   ...rest
 }) {
   const gentle = useGentleMotion();
-  const Tag = motion[as] || motion.span;
 
-  // ── Gentle path: one fade-up for the whole element ─────────────────
+  // ── Gentle path: plain HTML element, no motion at all ──────────────
   if (gentle) {
-    return (
-      <Tag
-        className={className}
-        style={style}
-        initial={{ opacity: 0, y: 18 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once, margin: '-40px' }}
-        transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1], delay }}
-        {...rest}
-      >
-        {children}
-      </Tag>
-    );
+    return createElement(as, { className, style, ...rest }, children);
   }
 
   // ── Rich path: per-word stagger (desktop only) ─────────────────────
+  const Tag = motion[as] || motion.span;
   let counter = { i: 0 };
 
   const renderNode = (node) => {

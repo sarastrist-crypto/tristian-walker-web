@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { useIsMobile } from '../hooks/useIsMobile';
 
@@ -13,7 +13,6 @@ const LINKS = [
 ];
 
 export default function Navigation() {
-  const { scrollY } = useScroll();
   const isMobile = useIsMobile();
   const [isScrolled, setIsScrolled] = useState(false);
   const [hoverIndex, setHoverIndex] = useState(null);
@@ -21,9 +20,16 @@ export default function Navigation() {
   const linkRefs = useRef([]);
   const [indicator, setIndicator] = useState({ left: 0, width: 0 });
 
+  // Lightweight passive scroll listener instead of framer's useScroll.
+  // useScroll subscribes a motion-value pipeline that updates every frame
+  // even when only a boolean threshold is needed. A passive listener +
+  // a single state set per threshold cross is significantly cheaper.
   useEffect(() => {
-    return scrollY.on('change', (latest) => setIsScrolled(latest > 50));
-  }, [scrollY]);
+    const onScroll = () => setIsScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   useEffect(() => {
     if (hoverIndex == null) return;
@@ -34,10 +40,15 @@ export default function Navigation() {
     setIndicator({ left: rect.left - parent.left, width: rect.width });
   }, [hoverIndex]);
 
-  // Lock body scroll while mobile menu is open
+  // Lock body scroll while mobile menu is open + signal to other fixed UI
+  // (QuietLineBridge) so they can hide.
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    document.documentElement.dataset.mobileMenu = mobileOpen ? 'open' : '';
+    return () => {
+      document.body.style.overflow = '';
+      delete document.documentElement.dataset.mobileMenu;
+    };
   }, [mobileOpen]);
 
   // Close on Escape + on hash navigation
@@ -51,27 +62,35 @@ export default function Navigation() {
   return (
     <>
       <motion.nav
-        // On mobile we deliberately skip backdrop-filter — it's the single
-        // biggest cause of janky scroll on iOS Safari. Solid color with a hair
-        // of transparency gives a similar feel at zero GPU cost.
+        // Mobile: always solid cream. No transparent → solid transition.
+        // The transition itself was running for 0.3s every time the user
+        // crossed the 50px threshold (which can happen multiple times when
+        // pull-to-refreshing or rubber-banding) — visible as a pulse at
+        // the very top of the screen.
+        // Desktop: keep the glass effect with backdrop-filter.
         initial={false}
-        animate={{
-          backgroundColor:
-            isScrolled || mobileOpen
-              ? isMobile
-                ? 'rgba(248, 245, 239, 0.97)'
-                : 'rgba(248, 245, 239, 0.86)'
-              : 'rgba(248, 245, 239, 0)',
-          backdropFilter:
-            (isScrolled || mobileOpen) && !isMobile
-              ? 'blur(16px) saturate(160%)'
-              : 'blur(0px)',
-          borderBottom: isScrolled
-            ? '1px solid rgba(188,116,78,0.12)'
-            : '1px solid transparent',
-          boxShadow: isScrolled ? '0 8px 32px rgba(140,70,40,0.06)' : 'none',
-        }}
-        transition={{ duration: 0.3, ease: 'easeOut' }}
+        animate={
+          isMobile
+            ? {
+                backgroundColor: 'rgba(248, 245, 239, 1)',
+                borderBottom: isScrolled
+                  ? '1px solid rgba(188,116,78,0.12)'
+                  : '1px solid rgba(188,116,78,0.08)',
+              }
+            : {
+                backgroundColor:
+                  isScrolled || mobileOpen
+                    ? 'rgba(248, 245, 239, 0.86)'
+                    : 'rgba(248, 245, 239, 0)',
+                backdropFilter:
+                  isScrolled || mobileOpen ? 'blur(16px) saturate(160%)' : 'blur(0px)',
+                borderBottom: isScrolled
+                  ? '1px solid rgba(188,116,78,0.12)'
+                  : '1px solid transparent',
+                boxShadow: isScrolled ? '0 8px 32px rgba(140,70,40,0.06)' : 'none',
+              }
+        }
+        transition={isMobile ? { duration: 0 } : { duration: 0.3, ease: 'easeOut' }}
         className="nav-bar"
         style={{
           position: 'fixed',

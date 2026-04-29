@@ -139,6 +139,13 @@ export default function QuietLineBridge() {
           .quiet-line-bridge .qlb-text { display: none; }
           .quiet-line-bridge { padding: 0.45rem; border-radius: 999px; }
         }
+        /* Hide the bridge while the mobile menu is open — it was floating
+           over the menu items in the open state. */
+        html[data-mobile-menu="open"] .quiet-line-bridge {
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity .15s ease;
+        }
       `}</style>
     </motion.a>
   );

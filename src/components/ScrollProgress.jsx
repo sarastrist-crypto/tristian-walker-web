@@ -1,16 +1,13 @@
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { useIsMobile } from '../hooks/useIsMobile';
 
-export default function ScrollProgress() {
-  // Hooks must run unconditionally. The cost of useScroll/useSpring is a
-  // motion-value subscription per frame; we just don't render the bar on
-  // mobile. That alone removes the box-shadow glow that was forcing a
-  // strip at the top of the viewport to re-paint each frame.
-  const isMobile = useIsMobile();
+// Hook calls live here. By extracting the bar to its own component, the
+// useScroll/useSpring hooks ONLY register listeners when this component
+// mounts — i.e. on desktop. On mobile the hooks are never called, so
+// there is no scroll subscription doing per-frame work in the background.
+function Bar() {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 24, mass: 0.4 });
-
-  if (isMobile) return null;
 
   return (
     <motion.div
@@ -30,4 +27,10 @@ export default function ScrollProgress() {
       }}
     />
   );
+}
+
+export default function ScrollProgress() {
+  const isMobile = useIsMobile();
+  if (isMobile) return null;
+  return <Bar />;
 }
