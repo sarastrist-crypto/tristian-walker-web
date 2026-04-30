@@ -7,7 +7,7 @@ pull: "Three questions before the room."
 date: "2026-02-22"
 readTime: "15 min read"
 cover: "/uploads/015-empty-stage.png"
-tint: "rgba(216,154,92,0.40)"
+tint: "rgba(216,154,92,0.18)"
 dek: "A behind-the-scenes look at the prep ritual for a large room — and why the most important question has nothing to do with the talk."
 draft: false
 ---
