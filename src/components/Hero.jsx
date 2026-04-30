@@ -364,7 +364,7 @@ export default function Hero() {
         .hero-grid { grid-template-columns: 1.25fr 1fr; }
         @media (max-width: 900px) {
           .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-          .hero-section { padding-top: 5.5rem; padding-bottom: 3rem; min-height: auto; }
+          .hero-section { padding-top: calc(5.5rem + env(safe-area-inset-top, 0px)); padding-bottom: 3rem; min-height: auto; }
         }
         @media (max-width: 600px) {
           .hero-scroll-cue { display: none; }
