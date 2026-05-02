@@ -200,7 +200,12 @@ export default function Hero() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.2 }}
-          style={{ position: 'relative', perspective: '1200px' }}
+          style={{ 
+            position: 'relative', 
+            perspective: '1200px',
+            maxWidth: isMobile ? '400px' : 'none',
+            margin: isMobile ? '0 auto' : '0'
+          }}
         >
           {/* Decorative ambient ring behind portrait — desktop only.
               Continuous rotation = continuous paint; phones can't spare it. */}

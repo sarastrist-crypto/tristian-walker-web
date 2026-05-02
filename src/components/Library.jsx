@@ -13,7 +13,7 @@ const SHELVES = [
     body:
       'A measured, literary reckoning with professional drift — and the practice that brings a person back. Available now.',
     cta: 'Order the book →',
-    href: 'https://quietlinebook.com',
+    href: 'https://thequietlinebook.com',
     external: true,
   },
   {
