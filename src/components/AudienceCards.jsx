@@ -265,7 +265,7 @@ export default function AudienceCards() {
                   whileHover={{ y: -3 }}
                   whileTap={{ scale: 0.97 }}
                   transition={{ type: 'spring', stiffness: 320, damping: 18 }}
-                  href="https://thequietlinebook.com"
+                  href="https://quietlinebook.com"
                   className="btn btn-primary"
                   target="_blank"
                   rel="noreferrer"
@@ -290,7 +290,7 @@ export default function AudienceCards() {
                 </div>
 
                 <motion.a
-                  href="https://thequietlinebook.com"
+                  href="https://quietlinebook.com"
                   target="_blank"
                   rel="noreferrer"
                   whileHover={{ rotateY: 18, rotateX: 4, scale: 1.06, y: -6 }}

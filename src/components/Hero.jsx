@@ -161,7 +161,7 @@ export default function Hero() {
               For two decades, I operated inside the highest stakes of corporate and hospitality leadership. It taught me that when process overrules presence, we lose the foundation of our character—and gradually drift into a Wall of Anonymity.
             </p>
             <p style={{ margin: 0 }}>
-              Today, my work exists to cure this drift. Through my lecture on <strong style={{ color: 'var(--text-main)' }}>Professional Drift</strong>, we bear witness to the actual cost of our systems and learn how to establish a Compass of Presence rather than succumbing to the Gravity of Transaction. My book, <em style={{ fontFamily: 'var(--font-heading)', color: 'var(--accent-primary)' }}>The Quiet Line</em>, serves as the anchor for this work—teaching leaders how to bring their character, not just their credentials, back to the interaction.
+              Today, my work exists to cure this drift. Through my lecture on <a href="https://walkertalks.io/professional-drift" target="_blank" style={{ color: 'var(--text-main)', fontWeight: 700, textDecoration: 'underline', textDecorationColor: 'var(--accent-primary)', textUnderlineOffset: '4px' }}>Professional Drift</a>, we bear witness to the actual cost of our systems and learn how to establish a Compass of Presence rather than succumbing to the Gravity of Transaction. My book, <em style={{ fontFamily: 'var(--font-heading)', color: 'var(--accent-primary)' }}>The Quiet Line</em>, serves as the anchor for this work—teaching leaders how to bring their character, not just their credentials, back to the interaction.
             </p>
           </div>
 

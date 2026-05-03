@@ -5,7 +5,7 @@ export default function QuietLineBridge() {
   const isMobile = useIsMobile();
   return (
     <motion.a
-      href="https://thequietlinebook.com"
+      href="https://quietlinebook.com"
       target="_blank"
       rel="noopener noreferrer"
       initial={{ opacity: 0, y: 50, scale: 0.9 }}
