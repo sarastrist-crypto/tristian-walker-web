@@ -63,6 +63,7 @@ export default function Hero() {
         }}
       >
         <motion.div
+          className="hero-text"
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, ease: 'easeOut' }}
@@ -195,16 +196,48 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* Portrait — layered, parallax, ambient ring */}
+        {/* Portrait — layered, parallax, ambient ring on desktop;
+            stripped-down plain <img> on mobile so nothing in the layered
+            stack (motion.div, perspective, preserve-3d, aspect-ratio,
+            absolute-positioned children) can prevent it from rendering. */}
+        {isMobile ? (
+          <motion.div
+            className="hero-portrait"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.15 }}
+            style={{
+              width: '100%',
+              maxWidth: '320px',
+              margin: '0 auto',
+            }}
+          >
+            <img
+              src="/brand/tristian-portrait-new.jpg"
+              alt="Tristian Walker"
+              loading="eager"
+              decoding="async"
+              style={{
+                display: 'block',
+                width: '100%',
+                height: 'auto',
+                borderRadius: '10px',
+                boxShadow: 'var(--shadow-warm)',
+                objectFit: 'cover',
+                objectPosition: 'center 30%',
+              }}
+            />
+          </motion.div>
+        ) : (
         <motion.div
+          className="hero-portrait"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.2 }}
-          style={{ 
-            position: 'relative', 
+          style={{
+            position: 'relative',
             perspective: '1200px',
-            maxWidth: isMobile ? '400px' : 'none',
-            margin: isMobile ? '0 auto' : '0'
+            width: '100%',
           }}
         >
           {/* Decorative ambient ring behind portrait — desktop only.
@@ -247,14 +280,15 @@ export default function Hero() {
             onMouseLeave={isMobile ? undefined : handleLeave}
             style={{
               position: 'relative',
+              width: '100%',
               aspectRatio: '4/5',
               borderRadius: '10px',
               overflow: 'hidden',
               boxShadow: 'var(--shadow-warm)',
               background: 'linear-gradient(180deg, var(--bg-dark), var(--bg-ink))',
-              transformStyle: 'preserve-3d',
-              rotateX: isMobile ? 0 : rx,
-              rotateY: isMobile ? 0 : ry,
+              // 3D properties only on desktop, where parallax actually runs.
+              transformStyle: isMobile ? undefined : 'preserve-3d',
+              ...(isMobile ? {} : { rotateX: rx, rotateY: ry }),
               zIndex: 2,
             }}
           >
@@ -328,6 +362,7 @@ export default function Hero() {
             </motion.div>
           </motion.div>
         </motion.div>
+        )}
       </div>
 
       {/* Scroll cue — desktop only. Was display:none on mobile via CSS but
@@ -368,11 +403,15 @@ export default function Hero() {
       <style>{`
         .hero-grid { grid-template-columns: 1.25fr 1fr; }
         @media (max-width: 900px) {
-          .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+          .hero-grid { grid-template-columns: 1fr; gap: 2rem; }
           .hero-section { padding-top: 5.5rem; padding-bottom: 3rem; min-height: auto; }
+          /* Show the portrait first on mobile — face before message. */
+          .hero-portrait { order: 1; }
+          .hero-text     { order: 2; }
         }
         @media (max-width: 600px) {
           .hero-scroll-cue { display: none; }
+          .hero-portrait { max-width: 280px; }
         }
       `}</style>
     </section>
