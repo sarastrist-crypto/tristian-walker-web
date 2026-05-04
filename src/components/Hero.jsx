@@ -204,7 +204,11 @@ export default function Hero() {
           transition={{ duration: 1.2, delay: 0.2 }}
           style={{
             position: 'relative',
-            perspective: '1200px',
+            // No 3D context on mobile. iOS Safari can drop a `preserve-3d`
+            // child of a `perspective` parent into an empty composite layer
+            // when combined with `aspect-ratio`, which is exactly the combo
+            // we had below. Desktop keeps perspective for the parallax tilt.
+            perspective: isMobile ? undefined : '1200px',
             width: '100%',
             maxWidth: isMobile ? '320px' : 'none',
             margin: isMobile ? '0 auto' : '0'
@@ -250,14 +254,15 @@ export default function Hero() {
             onMouseLeave={isMobile ? undefined : handleLeave}
             style={{
               position: 'relative',
+              width: '100%',
               aspectRatio: '4/5',
               borderRadius: '10px',
               overflow: 'hidden',
               boxShadow: 'var(--shadow-warm)',
               background: 'linear-gradient(180deg, var(--bg-dark), var(--bg-ink))',
-              transformStyle: 'preserve-3d',
-              rotateX: isMobile ? 0 : rx,
-              rotateY: isMobile ? 0 : ry,
+              // 3D properties only on desktop, where parallax actually runs.
+              transformStyle: isMobile ? undefined : 'preserve-3d',
+              ...(isMobile ? {} : { rotateX: rx, rotateY: ry }),
               zIndex: 2,
             }}
           >
