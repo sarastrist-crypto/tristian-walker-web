@@ -4,9 +4,9 @@ import RevealText from './RevealText';
 import { useIsMobile } from '../hooks/useIsMobile';
 
 const VARIANTS = [
-  <>A lecture on <em>Professional Drift</em> — and the practice that reclaims presence.</>,
-  <>A talk for leaders who'd rather <em>hear the quiet line</em> than outrun it.</>,
-  <>Two decades inside the systems. <em>One honest reckoning</em> with what they cost us.</>,
+  <>Two decades inside the highest-stakes systems. <em>One career</em> spent learning to come back.</>,
+  <>20+ years of corporate and hospitality leadership. <em>One honest reckoning</em> with what they cost us.</>,
+  <>From corporate floors to operating rooms. <em>20+ years</em> tracing the same through-line.</>,
 ];
 
 export default function Hero() {
