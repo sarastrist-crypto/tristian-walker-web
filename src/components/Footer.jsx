@@ -106,7 +106,7 @@ export default function Footer() {
               { label: 'The Book',  href: '#book' },
               { label: 'Speaking',  href: '#book' },
               { label: 'Writing',   href: '#writing' },
-              { label: 'Advisory',  href: 'mailto:advisory@tristianwalker.com' },
+              { label: 'Advisory',  href: 'mailto:hello@tristianwalker.com' },
               { label: 'Library',   href: '#library' },
             ].map((t) => (
               <motion.a
@@ -140,8 +140,7 @@ export default function Footer() {
               Connect
             </h5>
             {[
-              { label: 'booking@tristianwalker.com',  href: 'mailto:booking@tristianwalker.com' },
-              { label: 'advisory@tristianwalker.com', href: 'mailto:advisory@tristianwalker.com' },
+              { label: 'hello@tristianwalker.com',  href: 'mailto:hello@tristianwalker.com' },
               { label: 'The Residency',               href: '#newsletter' },
             ].map((t) => (
               <motion.a
