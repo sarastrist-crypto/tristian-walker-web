@@ -196,7 +196,39 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* Portrait — layered, parallax, ambient ring */}
+        {/* Portrait — layered, parallax, ambient ring on desktop;
+            stripped-down plain <img> on mobile so nothing in the layered
+            stack (motion.div, perspective, preserve-3d, aspect-ratio,
+            absolute-positioned children) can prevent it from rendering. */}
+        {isMobile ? (
+          <motion.div
+            className="hero-portrait"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.15 }}
+            style={{
+              width: '100%',
+              maxWidth: '320px',
+              margin: '0 auto',
+            }}
+          >
+            <img
+              src="/brand/tristian-portrait-new.jpg"
+              alt="Tristian Walker"
+              loading="eager"
+              decoding="async"
+              style={{
+                display: 'block',
+                width: '100%',
+                height: 'auto',
+                borderRadius: '10px',
+                boxShadow: 'var(--shadow-warm)',
+                objectFit: 'cover',
+                objectPosition: 'center 30%',
+              }}
+            />
+          </motion.div>
+        ) : (
         <motion.div
           className="hero-portrait"
           initial={{ opacity: 0, y: 40 }}
@@ -204,14 +236,8 @@ export default function Hero() {
           transition={{ duration: 1.2, delay: 0.2 }}
           style={{
             position: 'relative',
-            // No 3D context on mobile. iOS Safari can drop a `preserve-3d`
-            // child of a `perspective` parent into an empty composite layer
-            // when combined with `aspect-ratio`, which is exactly the combo
-            // we had below. Desktop keeps perspective for the parallax tilt.
-            perspective: isMobile ? undefined : '1200px',
+            perspective: '1200px',
             width: '100%',
-            maxWidth: isMobile ? '320px' : 'none',
-            margin: isMobile ? '0 auto' : '0'
           }}
         >
           {/* Decorative ambient ring behind portrait — desktop only.
@@ -336,6 +362,7 @@ export default function Hero() {
             </motion.div>
           </motion.div>
         </motion.div>
+        )}
       </div>
 
       {/* Scroll cue — desktop only. Was display:none on mobile via CSS but
