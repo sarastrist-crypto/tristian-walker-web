@@ -63,6 +63,7 @@ export default function Hero() {
         }}
       >
         <motion.div
+          className="hero-text"
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, ease: 'easeOut' }}
@@ -197,13 +198,15 @@ export default function Hero() {
 
         {/* Portrait — layered, parallax, ambient ring */}
         <motion.div
+          className="hero-portrait"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.2 }}
-          style={{ 
-            position: 'relative', 
+          style={{
+            position: 'relative',
             perspective: '1200px',
-            maxWidth: isMobile ? '400px' : 'none',
+            width: '100%',
+            maxWidth: isMobile ? '320px' : 'none',
             margin: isMobile ? '0 auto' : '0'
           }}
         >
@@ -368,11 +371,15 @@ export default function Hero() {
       <style>{`
         .hero-grid { grid-template-columns: 1.25fr 1fr; }
         @media (max-width: 900px) {
-          .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+          .hero-grid { grid-template-columns: 1fr; gap: 2rem; }
           .hero-section { padding-top: 5.5rem; padding-bottom: 3rem; min-height: auto; }
+          /* Show the portrait first on mobile — face before message. */
+          .hero-portrait { order: 1; }
+          .hero-text     { order: 2; }
         }
         @media (max-width: 600px) {
           .hero-scroll-cue { display: none; }
+          .hero-portrait { max-width: 280px; }
         }
       `}</style>
     </section>
