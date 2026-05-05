@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { essays } from '../content/loadEssays';
 import Navigation from './Navigation';
@@ -40,7 +39,10 @@ export default function EssayIndex() {
                   viewport={{ once: true, margin: '-50px' }}
                   transition={{ duration: 0.55, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <Link to={`/writing/${essay.slug}`} className="essay-index__row">
+                  {/* Row navigation temporarily disabled — interior pages
+                      not yet populated. Render row markup as a div so the
+                      list still reads correctly. */}
+                  <div className="essay-index__row" aria-disabled="true">
                     <span className="essay-index__num">{essay.num}</span>
                     <span className="essay-index__inner">
                       <span className="essay-index__type">{essay.type}</span>
@@ -54,7 +56,7 @@ export default function EssayIndex() {
                       </span>
                     </span>
                     <span className="essay-index__arrow" aria-hidden>→</span>
-                  </Link>
+                  </div>
                 </motion.li>
               ))}
             </ol>

@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import RevealText from './RevealText';
 import { useIsMobile } from '../hooks/useIsMobile';
 import { essays as ALL_ESSAYS } from '../content/loadEssays';
@@ -52,12 +51,13 @@ export default function Writing() {
               Essays, <em>letters, lecture notes.</em>
             </RevealText>
           </motion.div>
+          {/* "All essays →" link temporarily disabled — interior pages not
+              yet ready. Render as a non-interactive span to preserve layout. */}
           <motion.div
-            whileHover={isMobile ? undefined : { x: 6 }}
             transition={{ type: 'spring', stiffness: 320, damping: 20 }}
           >
-            <Link
-              to="/writing"
+            <span
+              aria-disabled="true"
               style={{
                 fontSize: '11px',
                 letterSpacing: '0.35em',
@@ -67,19 +67,22 @@ export default function Writing() {
                 paddingBottom: '0.25rem',
                 borderBottom: '1px solid rgba(188,116,78,0.35)',
                 textDecoration: 'none',
+                cursor: 'default',
               }}
             >
               All essays →
-            </Link>
+            </span>
           </motion.div>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
           {ESSAYS.map((essay, i) => {
             return (
-              <Link
+              // Card navigation temporarily disabled — interior essay/letter/
+              // lecture-note pages not yet ready. Cards remain visible so the
+              // section reads as designed during the talk; clicks are no-ops.
+              <div
                 key={essay.slug}
-                to={`/writing/${essay.slug}`}
                 style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
               >
                 <motion.article
@@ -90,7 +93,6 @@ export default function Writing() {
                         whileInView: { opacity: 1, y: 0 },
                         viewport: { once: true },
                         transition: { delay: i * 0.1, duration: 0.7, ease: [0.16, 1, 0.3, 1] },
-                        whileHover: { y: -10 },
                       })}
                   style={{
                     background: 'var(--bg-surface)',
@@ -100,7 +102,7 @@ export default function Writing() {
                     border: '1px solid rgba(0,0,0,0.04)',
                     display: 'flex',
                     flexDirection: 'column',
-                    cursor: 'pointer',
+                    cursor: 'default',
                     transition: 'box-shadow .35s ease',
                     height: '100%',
                   }}
@@ -180,7 +182,7 @@ export default function Writing() {
                     </div>
                   </div>
                 </motion.article>
-              </Link>
+              </div>
             );
           })}
         </div>
