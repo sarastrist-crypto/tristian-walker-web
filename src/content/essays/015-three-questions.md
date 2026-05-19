@@ -12,8 +12,6 @@ dek: "A behind-the-scenes look at the prep ritual for a large room — and why t
 draft: false
 ---
 
-> Replace this body with the lecture note. Lecture notes are the most "behind-the-scenes" of the three formats — readers come here for craft, not polish, so it is fine to be technical.
-
 There is a ritual I do in the empty room before the audience walks in. It is not a warm-up. It is closer to a question I ask myself, three times, in a specific order.
 
 ## 1. Who is in the front row?
