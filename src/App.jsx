@@ -5,7 +5,6 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Library from './components/Library';
 import AudienceCards from './components/AudienceCards';
-import Testimonials from './components/Testimonials';
 import Writing from './components/Writing';
 import Newsletter from './components/Newsletter';
 import Footer from './components/Footer';
@@ -25,7 +24,6 @@ function HomePage() {
         <About />
         <Library />
         <AudienceCards />
-        <Testimonials />
         <Writing />
         <Newsletter />
       </main>

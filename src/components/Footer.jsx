@@ -179,12 +179,6 @@ export default function Footer() {
           }}
         >
           <div>© 2026 Tristian Walker</div>
-          <div>
-            Booked by{' '}
-            <a href="#" style={{ display: 'inline', color: 'var(--accent-primary)', textDecoration: 'none' }}>
-              Laurel & Ash Speakers
-            </a>
-          </div>
         </div>
       </div>
     </footer>
