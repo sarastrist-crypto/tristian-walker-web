@@ -35,7 +35,7 @@ const SHELVES = [
     body:
       "A 45-minute lecture for rooms that can't afford a bad hour. Adapted to your industry — boards, hospitals, conservatories, festivals.",
     cta: 'Request a booking kit →',
-    href: 'mailto:tristian@tristianwalker.com',
+    href: 'mailto:hello@tristianwalker.com',
     external: false,
   },
   {

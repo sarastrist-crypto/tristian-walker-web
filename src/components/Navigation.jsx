@@ -193,7 +193,7 @@ export default function Navigation() {
             whileHover={{ scale: 1.04, y: -2 }}
             whileTap={{ scale: 0.96 }}
             transition={{ type: 'spring', stiffness: 320, damping: 18 }}
-            href="mailto:tristian@tristianwalker.com"
+            href="mailto:hello@tristianwalker.com"
             className="nav-cta"
             style={{
               padding: '.65rem 1.2rem',
@@ -338,7 +338,7 @@ export default function Navigation() {
               ))}
 
               <motion.a
-                href="mailto:tristian@tristianwalker.com"
+                href="mailto:hello@tristianwalker.com"
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.04 * LINKS.length + 0.1, duration: 0.4 }}
@@ -376,7 +376,7 @@ export default function Navigation() {
                   textAlign: 'center',
                 }}
               >
-                tristian@tristianwalker.com
+                hello@tristianwalker.com
               </div>
             </div>
           </motion.div>

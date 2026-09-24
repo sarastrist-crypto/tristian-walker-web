@@ -150,7 +150,7 @@ export default function AudienceCards() {
                   whileHover={{ y: -3 }}
                   whileTap={{ scale: 0.97 }}
                   transition={{ type: 'spring', stiffness: 320, damping: 18 }}
-                  href="mailto:tristian@tristianwalker.com"
+                  href="mailto:hello@tristianwalker.com"
                   className="btn btn-primary"
                   style={{ display: 'inline-block', textDecoration: 'none' }}
                 >
