@@ -27,7 +27,7 @@ const PILLARS = [
   'Plain-English Teaching',
   'Sales Leadership',
   'Provider Networks',
-  '80+ Industries Built',
+  '80+ Business Types',
 ];
 
 export default function About() {
@@ -50,7 +50,7 @@ export default function About() {
     { title: 'Plain-English Teaching', top: '20%',    right: '-2%', x: '0%',   delay: 1.2 },
     { title: 'Hospitality Roots',   bottom: '20%', right: '-2%', x: '0%',   delay: 2.5 },
     { title: 'Provider Networks',       bottom: '-4%', left: '50%',  x: '-50%', delay: 0.8 },
-    { title: '80+ Industries Built',          bottom: '20%', left: '-2%',  x: '0%',   delay: 3.1 },
+    { title: '80+ Business Types',          bottom: '20%', left: '-2%',  x: '0%',   delay: 3.1 },
     { title: 'Sales Leadership',       top: '20%',    left: '-2%',  x: '0%',   delay: 1.8 },
   ];
 

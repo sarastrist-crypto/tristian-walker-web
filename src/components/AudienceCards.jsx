@@ -36,6 +36,7 @@ export default function AudienceCards() {
     <section
       id="speaking"
       style={{
+        scrollMarginTop: '6rem',
         padding: '8rem 0',
         background: 'linear-gradient(180deg, var(--bg-base) 0%, var(--bg-warm) 100%)',
         position: 'relative',

@@ -197,6 +197,10 @@ export default function Navigation() {
             className="nav-cta"
             style={{
               padding: '.65rem 1.2rem',
+              minHeight: 44,
+              display: 'inline-flex',
+              alignItems: 'center',
+              boxSizing: 'border-box',
               border: '1px solid var(--accent-primary)',
               color: 'var(--accent-primary)',
               borderRadius: '4px',
