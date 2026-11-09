@@ -184,7 +184,24 @@ export default function GuestSheet() {
           )}
         </section>
 
-        {/* 5. Booking */}
+        {/* 5. Suggested questions */}
+        <section className="gs-section gs-section--warm">
+          <div className="wrap gs-narrow">
+            <motion.div {...rise()}>
+              <div className="eyebrow">Suggested questions</div>
+              <h2 className="gs-h2">Five to <em>get him going.</em></h2>
+            </motion.div>
+            <ol className="gs-questions">
+              {QUESTIONS.map((q, i) => (
+                <motion.li key={q} {...rise(i * 0.04)}>
+                  <span className="gs-questions__num">{i + 1}</span>
+                  <span>{q}</span>
+                </motion.li>
+              ))}
+            </ol>
+          </div>
+        </section>
+        {/* 6. Booking (last, so the page ends on how to reach him) */}
         <section className="gs-book">
           <div className="wrap gs-narrow">
             <motion.div {...rise()}>
@@ -202,23 +219,6 @@ export default function GuestSheet() {
                 </a>
               </div>
             </motion.div>
-          </div>
-        </section>
-        {/* 6. Suggested questions */}
-        <section className="gs-section gs-section--warm">
-          <div className="wrap gs-narrow">
-            <motion.div {...rise()}>
-              <div className="eyebrow">Suggested questions</div>
-              <h2 className="gs-h2">Five to <em>get him going.</em></h2>
-            </motion.div>
-            <ol className="gs-questions">
-              {QUESTIONS.map((q, i) => (
-                <motion.li key={q} {...rise(i * 0.04)}>
-                  <span className="gs-questions__num">{i + 1}</span>
-                  <span>{q}</span>
-                </motion.li>
-              ))}
-            </ol>
           </div>
         </section>
 
