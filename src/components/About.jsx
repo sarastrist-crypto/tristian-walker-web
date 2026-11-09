@@ -5,14 +5,14 @@ import RevealText from './RevealText';
 import { useIsMobile } from '../hooks/useIsMobile';
 
 function CountUp({ to = 20, duration = 2, suffix = '' }) {
+  const reduceCount = useReducedMotion();
   const [val, setVal] = useState(0);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
-  const reduceCount = useReducedMotion();
 
   useEffect(() => {
     if (!inView) return;
-    if (reduceCount) { setVal(to); return; }
+    if (reduceCount) return;
     const controls = animate(0, to, {
       duration,
       ease: [0.16, 1, 0.3, 1],
@@ -21,7 +21,7 @@ function CountUp({ to = 20, duration = 2, suffix = '' }) {
     return () => controls.stop();
   }, [inView, to, duration, reduceCount]);
 
-  return <span ref={ref}>{val}{suffix}</span>;
+  return <span ref={ref}>{reduceCount ? to : val}{suffix}</span>;
 }
 
 const PILLARS = [
@@ -211,7 +211,7 @@ export default function About() {
                   whileHover={{ scale: 1.06, boxShadow: '0 14px 30px rgba(140,70,40,0.18)' }}
                   transition={{
                     opacity: { duration: 1 },
-                    y: { duration: reduce ? 0 : 7, delay: moon.delay, repeat: reduce ? 0 : Infinity, ease: 'easeInOut' },
+                    y: { duration: reduce ? 0 : 7, delay: reduce ? 0 : moon.delay, repeat: reduce ? 0 : Infinity, ease: 'easeInOut' },
                     scale: { type: 'spring', stiffness: 320, damping: 18 },
                   }}
                   style={{
@@ -237,7 +237,7 @@ export default function About() {
                 >
                   <motion.div
                     animate={{ scale: [1, 1.4, 1], opacity: [1, 0.5, 1] }}
-                    transition={{ duration: reduce ? 0 : 2, delay: i * 0.2, repeat: reduce ? 0 : Infinity, ease: 'easeInOut' }}
+                    transition={{ duration: reduce ? 0 : 2, delay: reduce ? 0 : i * 0.2, repeat: reduce ? 0 : Infinity, ease: 'easeInOut' }}
                     style={{
                       width: '5px',
                       height: '5px',

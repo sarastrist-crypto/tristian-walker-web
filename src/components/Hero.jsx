@@ -20,12 +20,12 @@ export default function Hero() {
   // AnimatePresence mode="wait" — easily perceived as a "flicker" when
   // scrolling past. A single confident headline reads cleaner anyway.
   useEffect(() => {
-    if (isMobile) return;
+    if (isMobile || reduce) return;
     const timer = setInterval(() => {
       setVariantIndex((prev) => (prev + 1) % VARIANTS.length);
     }, 6500);
     return () => clearInterval(timer);
-  }, [isMobile]);
+  }, [isMobile, reduce]);
 
   // Portrait parallax tilt
   const mx = useMotionValue(0);
