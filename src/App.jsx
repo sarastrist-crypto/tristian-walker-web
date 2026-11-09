@@ -6,6 +6,7 @@ import About from './components/About';
 import Library from './components/Library';
 import AudienceCards from './components/AudienceCards';
 import Writing from './components/Writing';
+import ShowFeature from './components/ShowFeature';
 import Newsletter from './components/Newsletter';
 import Footer from './components/Footer';
 import QuietLineBridge from './components/QuietLineBridge';
@@ -23,6 +24,7 @@ function HomePage() {
         <Hero />
         <About />
         <Library />
+        <ShowFeature />
         <AudienceCards />
         <Writing />
         <Newsletter />

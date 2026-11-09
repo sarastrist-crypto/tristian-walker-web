@@ -6,6 +6,7 @@ import { useIsMobile } from '../hooks/useIsMobile';
 const LINKS = [
   { href: '#about',      label: 'About' },
   { href: '#library',    label: 'Library' },
+  { href: '#show',       label: 'Show' },
   { href: '#book',       label: 'Speaking' },
   { href: '#book',       label: 'Book' },
   { href: '#writing',    label: 'Writing' },
