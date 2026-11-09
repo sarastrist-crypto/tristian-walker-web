@@ -85,7 +85,7 @@ export default function Footer() {
                 margin: 0,
               }}
             >
-              From drift to direction — one honest reckoning at a time. Author, keynote speaker, advisor. Based in the Hudson Valley, working where the stakes of a human interaction are impossible to automate away.
+              AI in plain English for small business owners. Educator, founder of CobbledWorks, and author of The Quiet Line. Based in Valrico, Florida.
             </p>
           </div>
 
@@ -103,11 +103,11 @@ export default function Footer() {
               Library
             </h5>
             {[
-              { label: 'The Book',  href: '#book' },
-              { label: 'Speaking',  href: '#book' },
-              { label: 'Writing',   href: '#writing' },
-              { label: 'Advisory',  href: 'mailto:advisory@tristianwalker.com' },
-              { label: 'Library',   href: '#library' },
+              { label: 'The Show',     href: 'https://cobbledworks.com/ai-in-plain-english/' },
+              { label: 'Speaking',     href: '#speaking' },
+              { label: 'CobbledWorks', href: 'https://cobbledworks.com' },
+              { label: 'The Book',     href: '#book' },
+              { label: 'Writing',      href: '#writing' },
             ].map((t) => (
               <motion.a
                 key={t.label}
@@ -140,8 +140,8 @@ export default function Footer() {
               Connect
             </h5>
             {[
-              { label: 'booking@tristianwalker.com',  href: 'mailto:booking@tristianwalker.com' },
-              { label: 'advisory@tristianwalker.com', href: 'mailto:advisory@tristianwalker.com' },
+              { label: 'tristian@cobbledworks.com', href: 'mailto:tristian@cobbledworks.com' },
+              { label: '813-955-6273',              href: 'tel:+18139556273' },
               { label: 'The Residency',               href: '#newsletter' },
             ].map((t) => (
               <motion.a

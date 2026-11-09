@@ -4,13 +4,12 @@ import { Menu, X } from 'lucide-react';
 import { useIsMobile } from '../hooks/useIsMobile';
 
 const LINKS = [
-  { href: '#about',      label: 'About' },
-  { href: '#library',    label: 'Library' },
   { href: '#show',       label: 'Show' },
-  { href: '#book',       label: 'Speaking' },
+  { href: '#library',    label: 'Start Here' },
+  { href: '#about',      label: 'About' },
+  { href: '#speaking',   label: 'Speaking' },
   { href: '#book',       label: 'Book' },
   { href: '#writing',    label: 'Writing' },
-  { href: '#newsletter', label: 'Letters' },
 ];
 
 export default function Navigation() {
@@ -194,7 +193,7 @@ export default function Navigation() {
             whileHover={{ scale: 1.04, y: -2 }}
             whileTap={{ scale: 0.96 }}
             transition={{ type: 'spring', stiffness: 320, damping: 18 }}
-            href="mailto:tristian@tristianwalker.com"
+            href="mailto:tristian@cobbledworks.com"
             className="nav-cta"
             style={{
               padding: '.65rem 1.2rem',
@@ -339,7 +338,7 @@ export default function Navigation() {
               ))}
 
               <motion.a
-                href="mailto:tristian@tristianwalker.com"
+                href="mailto:tristian@cobbledworks.com"
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.04 * LINKS.length + 0.1, duration: 0.4 }}
@@ -363,7 +362,7 @@ export default function Navigation() {
                   justifyContent: 'center',
                 }}
               >
-                Book Tristian to speak →
+                Bring me to your group →
               </motion.a>
 
               <div
@@ -377,7 +376,7 @@ export default function Navigation() {
                   textAlign: 'center',
                 }}
               >
-                tristian@tristianwalker.com
+                tristian@cobbledworks.com
               </div>
             </div>
           </motion.div>

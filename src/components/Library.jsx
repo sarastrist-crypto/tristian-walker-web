@@ -1,52 +1,52 @@
 import { motion } from 'framer-motion';
-import { BookOpen, Feather, Mic, User } from 'lucide-react';
+import { BookOpen, Mic, PlayCircle, Wrench } from 'lucide-react';
 import RevealText from './RevealText';
 import { useReveal } from '../hooks/useReveal';
 import { useIsMobile } from '../hooks/useIsMobile';
 
 const SHELVES = [
   {
-    icon: BookOpen,
+    icon: PlayCircle,
     numeral: 'I',
-    eyebrow: 'The Book',
-    title: <>The Quiet <em>Line.</em></>,
+    eyebrow: 'The Show',
+    title: <>AI in <em>Plain English.</em></>,
     body:
-      'A measured, literary reckoning with professional drift — and the practice that brings a person back. Available now.',
-    cta: 'Order the book →',
-    href: 'https://quietlinebook.com',
+      'Short episodes for owners who run crews. One idea each time, shown on a real phone. Free to watch.',
+    cta: 'Watch the show →',
+    href: 'https://cobbledworks.com/ai-in-plain-english/',
     external: true,
   },
   {
-    icon: Feather,
-    numeral: 'II',
-    eyebrow: 'Essays & Letters',
-    title: <>The <em>writing.</em></>,
-    body:
-      'Essays, letters, and lecture notes — short pieces that travel further than the keynote can reach. New entry roughly every three weeks.',
-    cta: 'Read the latest →',
-    href: '#writing',
-    external: false,
-  },
-  {
     icon: Mic,
-    numeral: 'III',
-    eyebrow: 'The Lecture',
-    title: <>Professional <em>Drift.</em></>,
+    numeral: 'II',
+    eyebrow: 'Talks & Workshops',
+    title: <>Bring it to <em>your room.</em></>,
     body:
-      "A 45-minute lecture for rooms that can't afford a bad hour. Adapted to your industry — boards, hospitals, conservatories, festivals.",
-    cta: 'Request a booking kit →',
-    href: 'mailto:tristian@tristianwalker.com',
+      'Lunch and learns, chapter meetings and trade events. I bring a phone and real examples, and your members leave with one thing to try that week.',
+    cta: 'Ask about a date →',
+    href: '#speaking',
     external: false,
   },
   {
-    icon: User,
-    numeral: 'IV',
-    eyebrow: 'About Tristian',
-    title: <>The <em>bio.</em></>,
+    icon: Wrench,
+    numeral: 'III',
+    eyebrow: 'CobbledWorks',
+    title: <>When you want it <em>built.</em></>,
     body:
-      'Twenty years inside the highest stakes of corporate and hospitality leadership — the foundation under everything else on this site.',
-    cta: 'Read the bio →',
-    href: '#about',
+      'Some owners would rather have it done for them. My company builds websites, a CRM and field apps for service businesses.',
+    cta: 'Visit cobbledworks.com →',
+    href: 'https://cobbledworks.com',
+    external: true,
+  },
+  {
+    icon: BookOpen,
+    numeral: 'IV',
+    eyebrow: 'The Book',
+    title: <>The Quiet <em>Line.</em></>,
+    body:
+      'The other half of my story. A book about my life, and the way I overcame alcohol.',
+    cta: 'About the book →',
+    href: '#book',
     external: false,
   },
 ];
@@ -70,7 +70,7 @@ export default function Library() {
           {...headerReveal}
           style={{ textAlign: 'center', maxWidth: '760px', margin: '0 auto 4rem' }}
         >
-          <div className="eyebrow">Everything · in one source</div>
+          <div className="eyebrow">Where to start</div>
           <RevealText
             as="h2"
             style={{
@@ -79,10 +79,10 @@ export default function Library() {
               letterSpacing: '-0.015em',
             }}
           >
-            The book. The writing. The <em>lecture.</em>
+            Four ways in. <em>Start free.</em>
           </RevealText>
           <p style={{ fontSize: '1.1rem', lineHeight: 1.7, color: 'var(--text-muted)' }}>
-            One shelf. Pick your door.
+            Watch the show, bring me to your group, or have us build it for you.
           </p>
         </motion.div>
 

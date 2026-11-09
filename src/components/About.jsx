@@ -22,12 +22,12 @@ function CountUp({ to = 20, duration = 2, suffix = '' }) {
 }
 
 const PILLARS = [
-  'Corporate Leadership',
-  'Hospitality Leadership',
-  'Power of Personal Agency',
-  'Strategic Advisory',
-  'Mastery of Process',
-  'Global Lectures',
+  'AI for Small Business',
+  'Hospitality Roots',
+  'Plain-English Teaching',
+  'Sales Leadership',
+  'Provider Networks',
+  '80+ Industries Built',
 ];
 
 export default function About() {
@@ -46,12 +46,12 @@ export default function About() {
   // labels sit inside the column on narrower desktop widths instead of
   // breaching it.
   const moons = [
-    { title: 'Corporate Leadership',     top: '-4%',    left: '50%',  x: '-50%', delay: 0 },
-    { title: 'Power of Personal Agency', top: '20%',    right: '-2%', x: '0%',   delay: 1.2 },
-    { title: 'Hospitality Leadership',   bottom: '20%', right: '-2%', x: '0%',   delay: 2.5 },
-    { title: 'Mastery of Process',       bottom: '-4%', left: '50%',  x: '-50%', delay: 0.8 },
-    { title: 'Global Lectures',          bottom: '20%', left: '-2%',  x: '0%',   delay: 3.1 },
-    { title: 'Strategic Advisory',       top: '20%',    left: '-2%',  x: '0%',   delay: 1.8 },
+    { title: 'AI for Small Business',     top: '-4%',    left: '50%',  x: '-50%', delay: 0 },
+    { title: 'Plain-English Teaching', top: '20%',    right: '-2%', x: '0%',   delay: 1.2 },
+    { title: 'Hospitality Roots',   bottom: '20%', right: '-2%', x: '0%',   delay: 2.5 },
+    { title: 'Provider Networks',       bottom: '-4%', left: '50%',  x: '-50%', delay: 0.8 },
+    { title: '80+ Industries Built',          bottom: '20%', left: '-2%',  x: '0%',   delay: 3.1 },
+    { title: 'Sales Leadership',       top: '20%',    left: '-2%',  x: '0%',   delay: 1.8 },
   ];
 
   return (
@@ -259,7 +259,7 @@ export default function About() {
               letterSpacing: '-0.015em',
             }}
           >
-            A life spent inside the <em>interaction nobody meant to lose.</em>
+            I learned business the long way. <em>Now I teach the shortcut.</em>
           </RevealText>
           <div
             style={{
@@ -282,14 +282,14 @@ export default function About() {
               }}
             />
             <p style={{ fontSize: '1.15rem', lineHeight: 1.75, color: 'var(--text-main)', maxWidth: '36em', margin: 0, fontWeight: 500 }}>
-              Before the lecture circuit, Tristian Walker built a 20+ year foundation across high-stakes corporate management and elite hospitality leadership.
+              I started in restaurants and stayed nearly 20 years, from the back of the house to running the bar at Roy's in Tampa. Then came almost two decades building provider networks and leading sales in health care.
             </p>
           </div>
           <p style={{ fontSize: '1.08rem', lineHeight: 1.75, color: 'var(--text-muted)', maxWidth: '36em' }}>
-            He is the author of <em style={{ color: 'var(--accent-primary)', fontWeight: 600 }}>The Quiet Line</em> and now works with institutions where the stakes of a human interaction are impossible to automate away — operating rooms, concert halls, trading floors, and executive retreats.
+            From 2011 to 2019 I taught continuing education across the country for Sonova, turning hearing technology into plain words for busy professionals. That's still the job. Today I run CobbledWorks and teach owners to use AI on the work they already do.
           </p>
           <p style={{ fontSize: '1.08rem', lineHeight: 1.75, color: 'var(--text-muted)', maxWidth: '36em' }}>
-            The through-line of his work is simple: drift is what happens when you perform the task perfectly, but lose the human entirely. He helps leaders find the flicker — that preceding moment of awareness — and build a practice around it. The audience remains the same whether it's an operating room or an executive retreat: people who are highly capable, but quietly disconnected.
+            I'm also a singer, with stages that include Carnegie Hall and the Sydney Opera House, and the author of <em style={{ color: 'var(--accent-primary)', fontWeight: 600 }}>The Quiet Line</em>. I live in Valrico, Florida.
           </p>
           <motion.p
             whileHover={{ x: 8 }}
@@ -311,7 +311,7 @@ export default function About() {
               transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
               style={{ width: isMobile ? 24 : undefined, height: 1, background: 'var(--accent-primary)', display: 'inline-block' }}
             />
-            From drift to direction, one honest reckoning at a time.
+            Plain words, real tools, one owner at a time.
           </motion.p>
         </motion.div>
       </motion.div>

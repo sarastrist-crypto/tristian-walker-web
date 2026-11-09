@@ -22,9 +22,9 @@ function HomePage() {
       <Navigation />
       <main style={{ position: 'relative', zIndex: 1 }}>
         <Hero />
-        <About />
-        <Library />
         <ShowFeature />
+        <Library />
+        <About />
         <AudienceCards />
         <Writing />
         <Newsletter />
