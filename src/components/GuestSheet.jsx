@@ -372,7 +372,7 @@ export default function GuestSheet() {
         @media (max-width: 820px) {
           .gs-hero { padding: 3rem 0 4rem; }
           .gs-hero__grid { grid-template-columns: 1fr; gap: 2.5rem; }
-          .gs-hero__portrait { order: -1; max-width: 300px; }
+          .gs-hero__portrait { max-width: 300px; }
           .gs-cards { grid-template-columns: 1fr; }
           .gs-section, .gs-book { padding: 4.5rem 0; }
         }
