@@ -1,4 +1,5 @@
 import { motion, useInView, animate } from 'framer-motion';
+import { useReducedMotion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import RevealText from './RevealText';
 import { useIsMobile } from '../hooks/useIsMobile';
@@ -7,16 +8,18 @@ function CountUp({ to = 20, duration = 2, suffix = '' }) {
   const [val, setVal] = useState(0);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
+  const reduceCount = useReducedMotion();
 
   useEffect(() => {
     if (!inView) return;
+    if (reduceCount) { setVal(to); return; }
     const controls = animate(0, to, {
       duration,
       ease: [0.16, 1, 0.3, 1],
       onUpdate: (v) => setVal(Math.round(v)),
     });
     return () => controls.stop();
-  }, [inView, to, duration]);
+  }, [inView, to, duration, reduceCount]);
 
   return <span ref={ref}>{val}{suffix}</span>;
 }
@@ -32,6 +35,7 @@ const PILLARS = [
 
 export default function About() {
   const isMobile = useIsMobile();
+  const reduce = useReducedMotion();
   const containerVariants = {
     hidden:  { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.3 } },
@@ -132,7 +136,7 @@ export default function About() {
               {/* Static planet — pulses subtly. */}
               <motion.div
                 animate={{ scale: [1, 1.04, 1] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                transition={{ duration: reduce ? 0 : 4, repeat: reduce ? 0 : Infinity, ease: 'easeInOut' }}
                 style={{
                   position: 'relative',
                   display: 'flex',
@@ -175,12 +179,12 @@ export default function About() {
               {/* Rotating rings — desktop only. */}
               <motion.div
                 animate={{ rotate: 360 }}
-                transition={{ duration: 80, repeat: Infinity, ease: 'linear' }}
+                transition={{ duration: reduce ? 0 : 80, repeat: reduce ? 0 : Infinity, ease: 'linear' }}
                 style={{ position: 'absolute', inset: '8%', borderRadius: '50%', border: '1px dashed rgba(188,116,78,0.30)', zIndex: 1, willChange: 'transform' }}
               />
               <motion.div
                 animate={{ rotate: -360 }}
-                transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
+                transition={{ duration: reduce ? 0 : 120, repeat: reduce ? 0 : Infinity, ease: 'linear' }}
                 style={{ position: 'absolute', inset: '28%', borderRadius: '50%', border: '1px solid rgba(188,116,78,0.10)', zIndex: 1, willChange: 'transform' }}
               />
 
@@ -207,7 +211,7 @@ export default function About() {
                   whileHover={{ scale: 1.06, boxShadow: '0 14px 30px rgba(140,70,40,0.18)' }}
                   transition={{
                     opacity: { duration: 1 },
-                    y: { duration: 7, delay: moon.delay, repeat: Infinity, ease: 'easeInOut' },
+                    y: { duration: reduce ? 0 : 7, delay: moon.delay, repeat: reduce ? 0 : Infinity, ease: 'easeInOut' },
                     scale: { type: 'spring', stiffness: 320, damping: 18 },
                   }}
                   style={{
@@ -233,7 +237,7 @@ export default function About() {
                 >
                   <motion.div
                     animate={{ scale: [1, 1.4, 1], opacity: [1, 0.5, 1] }}
-                    transition={{ duration: 2, delay: i * 0.2, repeat: Infinity, ease: 'easeInOut' }}
+                    transition={{ duration: reduce ? 0 : 2, delay: i * 0.2, repeat: reduce ? 0 : Infinity, ease: 'easeInOut' }}
                     style={{
                       width: '5px',
                       height: '5px',
@@ -271,7 +275,7 @@ export default function About() {
           >
             <motion.div
               animate={isMobile ? undefined : { opacity: [0.4, 1, 0.4] }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+              transition={{ duration: reduce ? 0 : 3, repeat: reduce ? 0 : Infinity, ease: 'easeInOut' }}
               style={{
                 position: 'absolute',
                 left: '-3px',
@@ -308,7 +312,7 @@ export default function About() {
           >
             <motion.span
               animate={isMobile ? undefined : { width: [16, 32, 16] }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+              transition={{ duration: reduce ? 0 : 3, repeat: reduce ? 0 : Infinity, ease: 'easeInOut' }}
               style={{ width: isMobile ? 24 : undefined, height: 1, background: 'var(--accent-primary)', display: 'inline-block' }}
             />
             Plain words, real tools, one owner at a time.

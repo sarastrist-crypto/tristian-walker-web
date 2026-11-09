@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { useReducedMotion } from 'framer-motion';
 import RevealText from './RevealText';
 import { useIsMobile } from '../hooks/useIsMobile';
 
@@ -12,6 +13,7 @@ const VARIANTS = [
 export default function Hero() {
   const [variantIndex, setVariantIndex] = useState(0);
   const isMobile = useIsMobile();
+  const reduce = useReducedMotion();
 
   // Cycle headlines on desktop only. On mobile every cycle was running
   // a `filter: blur(8px)` animation on a 5rem heading + an empty gap from
@@ -86,7 +88,7 @@ export default function Hero() {
           >
             <motion.div
               animate={isMobile ? undefined : { width: [44, 64, 44] }}
-              transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
+              transition={{ duration: reduce ? 0 : 4.5, repeat: reduce ? 0 : Infinity, ease: 'easeInOut' }}
               style={{ width: isMobile ? 44 : undefined, height: '1px', background: 'var(--accent-primary)' }}
             />
             AI Educator · Founder of CobbledWorks
@@ -248,7 +250,7 @@ export default function Hero() {
             <motion.div
               aria-hidden
               animate={{ rotate: 360 }}
-              transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: reduce ? 0 : 60, repeat: reduce ? 0 : Infinity, ease: 'linear' }}
               style={{
                 position: 'absolute',
                 inset: '-8%',
@@ -396,7 +398,7 @@ export default function Hero() {
           Scroll
           <motion.div
             animate={{ y: [0, 10, 0], opacity: [0.3, 1, 0.3] }}
-            transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+            transition={{ duration: reduce ? 0 : 2.2, repeat: reduce ? 0 : Infinity, ease: 'easeInOut' }}
             style={{ width: '1px', height: '32px', background: 'var(--accent-primary)' }}
           />
         </motion.div>
