@@ -1,37 +1,41 @@
 import { motion, useInView, animate } from 'framer-motion';
+import { useReducedMotion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import RevealText from './RevealText';
 import { useIsMobile } from '../hooks/useIsMobile';
 
 function CountUp({ to = 20, duration = 2, suffix = '' }) {
+  const reduceCount = useReducedMotion();
   const [val, setVal] = useState(0);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
 
   useEffect(() => {
     if (!inView) return;
+    if (reduceCount) return;
     const controls = animate(0, to, {
       duration,
       ease: [0.16, 1, 0.3, 1],
       onUpdate: (v) => setVal(Math.round(v)),
     });
     return () => controls.stop();
-  }, [inView, to, duration]);
+  }, [inView, to, duration, reduceCount]);
 
-  return <span ref={ref}>{val}{suffix}</span>;
+  return <span ref={ref}>{reduceCount ? to : val}{suffix}</span>;
 }
 
 const PILLARS = [
-  'Corporate Leadership',
-  'Hospitality Leadership',
-  'Power of Personal Agency',
-  'Strategic Advisory',
-  'Mastery of Process',
-  'Global Lectures',
+  'AI for Small Business',
+  'Hospitality Roots',
+  'Plain-English Teaching',
+  'Sales Leadership',
+  'Provider Networks',
+  '80+ Business Types',
 ];
 
 export default function About() {
   const isMobile = useIsMobile();
+  const reduce = useReducedMotion();
   const containerVariants = {
     hidden:  { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.3 } },
@@ -46,12 +50,12 @@ export default function About() {
   // labels sit inside the column on narrower desktop widths instead of
   // breaching it.
   const moons = [
-    { title: 'Corporate Leadership',     top: '-4%',    left: '50%',  x: '-50%', delay: 0 },
-    { title: 'Power of Personal Agency', top: '20%',    right: '-2%', x: '0%',   delay: 1.2 },
-    { title: 'Hospitality Leadership',   bottom: '20%', right: '-2%', x: '0%',   delay: 2.5 },
-    { title: 'Mastery of Process',       bottom: '-4%', left: '50%',  x: '-50%', delay: 0.8 },
-    { title: 'Global Lectures',          bottom: '20%', left: '-2%',  x: '0%',   delay: 3.1 },
-    { title: 'Strategic Advisory',       top: '20%',    left: '-2%',  x: '0%',   delay: 1.8 },
+    { title: 'AI for Small Business',     top: '-4%',    left: '50%',  x: '-50%', delay: 0 },
+    { title: 'Plain-English Teaching', top: '20%',    right: '-2%', x: '0%',   delay: 1.2 },
+    { title: 'Hospitality Roots',   bottom: '20%', right: '-2%', x: '0%',   delay: 2.5 },
+    { title: 'Provider Networks',       bottom: '-4%', left: '50%',  x: '-50%', delay: 0.8 },
+    { title: '80+ Business Types',          bottom: '20%', left: '-2%',  x: '0%',   delay: 3.1 },
+    { title: 'Sales Leadership',       top: '20%',    left: '-2%',  x: '0%',   delay: 1.8 },
   ];
 
   return (
@@ -132,7 +136,7 @@ export default function About() {
               {/* Static planet — pulses subtly. */}
               <motion.div
                 animate={{ scale: [1, 1.04, 1] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                transition={{ duration: reduce ? 0 : 4, repeat: reduce ? 0 : Infinity, ease: 'easeInOut' }}
                 style={{
                   position: 'relative',
                   display: 'flex',
@@ -175,12 +179,12 @@ export default function About() {
               {/* Rotating rings — desktop only. */}
               <motion.div
                 animate={{ rotate: 360 }}
-                transition={{ duration: 80, repeat: Infinity, ease: 'linear' }}
+                transition={{ duration: reduce ? 0 : 80, repeat: reduce ? 0 : Infinity, ease: 'linear' }}
                 style={{ position: 'absolute', inset: '8%', borderRadius: '50%', border: '1px dashed rgba(188,116,78,0.30)', zIndex: 1, willChange: 'transform' }}
               />
               <motion.div
                 animate={{ rotate: -360 }}
-                transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
+                transition={{ duration: reduce ? 0 : 120, repeat: reduce ? 0 : Infinity, ease: 'linear' }}
                 style={{ position: 'absolute', inset: '28%', borderRadius: '50%', border: '1px solid rgba(188,116,78,0.10)', zIndex: 1, willChange: 'transform' }}
               />
 
@@ -207,7 +211,7 @@ export default function About() {
                   whileHover={{ scale: 1.06, boxShadow: '0 14px 30px rgba(140,70,40,0.18)' }}
                   transition={{
                     opacity: { duration: 1 },
-                    y: { duration: 7, delay: moon.delay, repeat: Infinity, ease: 'easeInOut' },
+                    y: { duration: reduce ? 0 : 7, delay: reduce ? 0 : moon.delay, repeat: reduce ? 0 : Infinity, ease: 'easeInOut' },
                     scale: { type: 'spring', stiffness: 320, damping: 18 },
                   }}
                   style={{
@@ -233,7 +237,7 @@ export default function About() {
                 >
                   <motion.div
                     animate={{ scale: [1, 1.4, 1], opacity: [1, 0.5, 1] }}
-                    transition={{ duration: 2, delay: i * 0.2, repeat: Infinity, ease: 'easeInOut' }}
+                    transition={{ duration: reduce ? 0 : 2, delay: reduce ? 0 : i * 0.2, repeat: reduce ? 0 : Infinity, ease: 'easeInOut' }}
                     style={{
                       width: '5px',
                       height: '5px',
@@ -259,7 +263,7 @@ export default function About() {
               letterSpacing: '-0.015em',
             }}
           >
-            A life spent inside the <em>interaction nobody meant to lose.</em>
+            I learned business the long way. <em>Now I teach the shortcut.</em>
           </RevealText>
           <div
             style={{
@@ -271,7 +275,7 @@ export default function About() {
           >
             <motion.div
               animate={isMobile ? undefined : { opacity: [0.4, 1, 0.4] }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+              transition={{ duration: reduce ? 0 : 3, repeat: reduce ? 0 : Infinity, ease: 'easeInOut' }}
               style={{
                 position: 'absolute',
                 left: '-3px',
@@ -282,14 +286,14 @@ export default function About() {
               }}
             />
             <p style={{ fontSize: '1.15rem', lineHeight: 1.75, color: 'var(--text-main)', maxWidth: '36em', margin: 0, fontWeight: 500 }}>
-              Before the lecture circuit, Tristian Walker built a 20+ year foundation across high-stakes corporate management and elite hospitality leadership.
+              I started in restaurants and stayed nearly 20 years, from the back of the house to running the bar at Roy's in Tampa. Then came almost two decades building provider networks and leading sales in health care.
             </p>
           </div>
           <p style={{ fontSize: '1.08rem', lineHeight: 1.75, color: 'var(--text-muted)', maxWidth: '36em' }}>
-            He is the author of <em style={{ color: 'var(--accent-primary)', fontWeight: 600 }}>The Quiet Line</em> and now works with institutions where the stakes of a human interaction are impossible to automate away — operating rooms, concert halls, trading floors, and executive retreats.
+            From 2011 to 2019 I taught continuing education across the country for Sonova, turning hearing technology into plain words for busy professionals. That's still the job. Today I run CobbledWorks and teach owners to use AI on the work they already do.
           </p>
           <p style={{ fontSize: '1.08rem', lineHeight: 1.75, color: 'var(--text-muted)', maxWidth: '36em' }}>
-            The through-line of his work is simple: drift is what happens when you perform the task perfectly, but lose the human entirely. He helps leaders find the flicker — that preceding moment of awareness — and build a practice around it. The audience remains the same whether it's an operating room or an executive retreat: people who are highly capable, but quietly disconnected.
+            I'm also a singer, with stages that include Carnegie Hall and the Sydney Opera House, and the author of <em style={{ color: 'var(--accent-primary)', fontWeight: 600 }}>The Quiet Line</em>. I live in Valrico, Florida.
           </p>
           <motion.p
             whileHover={{ x: 8 }}
@@ -308,10 +312,10 @@ export default function About() {
           >
             <motion.span
               animate={isMobile ? undefined : { width: [16, 32, 16] }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+              transition={{ duration: reduce ? 0 : 3, repeat: reduce ? 0 : Infinity, ease: 'easeInOut' }}
               style={{ width: isMobile ? 24 : undefined, height: 1, background: 'var(--accent-primary)', display: 'inline-block' }}
             />
-            From drift to direction, one honest reckoning at a time.
+            Plain words, real tools, one owner at a time.
           </motion.p>
         </motion.div>
       </motion.div>

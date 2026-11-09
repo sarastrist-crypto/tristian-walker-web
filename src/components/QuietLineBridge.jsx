@@ -135,9 +135,10 @@ export default function QuietLineBridge() {
       <style>{`
         /* Phone: drop the second text line, keep just the cover icon — the
            pill becomes a small circular shortcut that doesn't crowd content */
-        @media (max-width: 480px) {
-          .quiet-line-bridge .qlb-text { display: none; }
-          .quiet-line-bridge { padding: 0.45rem; border-radius: 999px; }
+        /* Phones and tablets: hidden. It floated over the headline and the
+           section copy, and the Book card and nav link already reach it. */
+        @media (max-width: 900px) {
+          .quiet-line-bridge { display: none !important; }
         }
         /* Hide the bridge while the mobile menu is open — it was floating
            over the menu items in the open state. */

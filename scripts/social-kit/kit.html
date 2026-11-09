@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tristian Walker social kit</title>
+<!--
+  Source for the Tristian Walker social kit (share card + profile banners).
+  Rendered by scripts/social-kit/render.mjs, which injects the real Merriweather
+  and Lato as inlined woff2, the portrait, and the
+  format config, at the three marked placeholders. Tokens below are copied from src/index.css.
+-->
+<style>
+%%FONTS%%
+:root{
+  --bg-base:#F8F5EF; --bg-surface:#FFFFFF; --bg-warm:#E6DFD6;
+  --accent-primary:#BC744E; --accent-hover:#A05E3D; --accent-deep:#8B4A2A;
+  --accent-amber:#D89A5C; --accent-gold:#D4B068; --accent-rose:#C28B6E;
+  --text-main:#2D2925; --text-muted:#5C554D; --text-subtle:#8B8478;
+  --font-heading:'Merriweather', Georgia, serif;
+  --font-body:'Lato', sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:var(--w);height:var(--h);overflow:hidden;background:var(--bg-base)}
+body{position:relative;font-family:var(--font-body);color:var(--text-main);-webkit-font-smoothing:antialiased}
+
+/* Layered warm light: three orbs on cream, plus a faint paper grain. */
+.light{position:absolute;inset:0;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(calc(var(--u)*30px))}
+.orb.o1{background:radial-gradient(circle at 30% 30%, rgba(216,154,92,.50), rgba(188,116,78,0) 70%)}
+.orb.o2{background:radial-gradient(circle at 60% 50%, rgba(212,176,104,.42), rgba(188,116,78,0) 70%)}
+.orb.o3{background:radial-gradient(circle at 50% 50%, rgba(194,139,110,.38), rgba(188,116,78,0) 70%)}
+.grain{position:absolute;inset:0;opacity:.35;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .55  0 0 0 0 .42  0 0 0 0 .32  0 0 0 .10 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.frame{position:absolute;inset:calc(var(--u)*22px);border:1px solid rgba(188,116,78,.22);border-radius:calc(var(--u)*6px);pointer-events:none}
+
+/* Content block, placed inside each platform's safe area by the format config. */
+.safe{position:absolute;display:flex;flex-direction:column;justify-content:center}
+.safe.left{align-items:flex-start;text-align:left}
+.safe.center{align-items:center;text-align:center}
+/* Small text uses the deep accent: #BC744E measures about 3.4:1 on cream, #8B4A2A clears 4.5:1. */
+.eyebrow{font:700 calc(var(--u)*15px)/1 var(--font-body);letter-spacing:.32em;text-transform:uppercase;color:var(--accent-deep)}
+.name{font:900 calc(var(--u)*66px)/1.05 var(--font-heading);letter-spacing:-.01em;color:var(--text-main)}
+.line{font:400 calc(var(--u)*27px)/1.35 var(--font-body);color:var(--text-muted)}
+.rule{width:calc(var(--u)*64px);height:calc(var(--u)*3px);border-radius:2px;background:linear-gradient(90deg,#8B4A2A,#BC744E 55%,#D89A5C)}
+.show{font:700 calc(var(--u)*46px)/1.1 var(--font-heading);color:var(--text-main)}
+.show em{font-style:italic;color:var(--accent-primary)}
+.card .line{font-size:40px;line-height:1.25;color:var(--text-main)}
+.gap-s{height:calc(var(--u)*14px)} .gap-m{height:calc(var(--u)*24px)} .gap-l{height:calc(var(--u)*34px)}
+
+/* Banner variant: the show leads; the profile itself carries his name and link. */
+.banner .show{font-size:calc(var(--u)*70px)}
+.banner .orb{opacity:1.25}
+.banner .orb.o1{background:radial-gradient(circle at 30% 30%, rgba(216,154,92,.62), rgba(188,116,78,0) 70%)}
+.banner .line{font-size:var(--line-px);color:var(--text-main)}
+.banner .eyebrow{font-size:calc(var(--u)*20px)}
+
+/* Portrait panel (share card only). Never any text over it. */
+.portrait{position:absolute;top:0;right:0;height:100%;overflow:hidden;
+  box-shadow:-30px 0 90px -20px rgba(140,70,40,.35)}
+.portrait img{width:100%;height:100%;object-fit:cover;object-position:52% 30%;display:block}
+.portrait::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:linear-gradient(180deg,#D89A5C,#BC744E 50%,#8B4A2A);z-index:2}
+.portrait::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(248,245,239,.18),rgba(248,245,239,0) 18%);z-index:1}
+
+/* A cream pool shaped to the copy, so the warm light stays at the edges and the
+   sienna display word keeps 3:1 wherever it sits. */
+.halo{position:absolute;pointer-events:none;background:radial-gradient(ellipse at center, rgba(248,245,239,.92) 0%, rgba(248,245,239,.80) 45%, rgba(248,245,239,0) 72%)}
+
+/* Review-only guides, turned on with --guides. */
+.guide{position:absolute;border:2px dashed rgba(255,0,0,.7);z-index:99}
+</style>
+</head>
+<body>
+<div class="light"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="grain"></div></div>
+<div class="frame"></div>
+<div id="content"></div>
+<script>
+const F = %%FORMAT%%;
+const PORTRAIT = "%%PORTRAIT%%";
+const r = document.documentElement.style;
+r.setProperty('--w', F.w + 'px'); r.setProperty('--h', F.h + 'px'); r.setProperty('--u', F.u);
+if (F.linePx) r.setProperty('--line-px', F.linePx + 'px');
+document.body.classList.add(F.kind);
+F.orbs.forEach((o, i) => Object.assign(document.querySelectorAll('.orb')[i].style,
+  { left: o[0] + 'px', top: o[1] + 'px', width: o[2] + 'px', height: o[2] + 'px' }));
+const c = document.getElementById('content');
+const halo = s => `<div class="halo" style="left:${s.x - s.w * 0.25}px;top:${s.y - s.h * 0.35}px;width:${s.w * 1.5}px;height:${s.h * 1.7}px"></div>`;
+const box = (s, cls) => `<div class="safe ${cls}" style="left:${s.x}px;top:${s.y}px;width:${s.w}px;height:${s.h}px">`;
+if (F.kind === 'card') {
+  c.innerHTML = `
+    <div class="portrait" style="width:${F.portraitW}px"><img src="${PORTRAIT}" alt=""></div>
+    ${halo(F.safe)}${box(F.safe, 'left')}
+      <div class="eyebrow">Host of the show</div><div class="gap-s"></div>
+      <div class="show">AI in <em>Plain English</em></div><div class="gap-m"></div>
+      <div class="rule"></div><div class="gap-m"></div>
+      <div class="name">Tristian Walker</div><div class="gap-s"></div>
+      <div class="line">I teach small business owners<br>to use AI.</div>
+    </div>`;
+} else {
+  c.innerHTML = `
+    ${halo(F.safe)}${box(F.safe, F.align)}
+      <div class="eyebrow">The show</div><div class="gap-m"></div>
+      <div class="show">AI in <em>Plain English</em></div><div class="gap-m"></div>
+      <div class="rule"></div><div class="gap-m"></div>
+      <div class="line">I teach small business owners to use AI.</div>
+    </div>`;
+}
+if (F.guides) (F.guideBoxes || []).forEach(g => c.insertAdjacentHTML('beforeend',
+  `<div class="guide" style="left:${g.x}px;top:${g.y}px;width:${g.w}px;height:${g.h}px"></div>`));
+</script>
+</body>
+</html>

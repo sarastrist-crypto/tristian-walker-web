@@ -34,8 +34,9 @@ export default function AudienceCards() {
   const isMobile = useIsMobile();
   return (
     <section
-      id="book"
+      id="speaking"
       style={{
+        scrollMarginTop: '6rem',
         padding: '8rem 0',
         background: 'linear-gradient(180deg, var(--bg-base) 0%, var(--bg-warm) 100%)',
         position: 'relative',
@@ -74,12 +75,12 @@ export default function AudienceCards() {
               })}
           style={{ textAlign: 'center', maxWidth: '760px', margin: '0 auto 4rem' }}
         >
-          <div className="eyebrow">02 / Three rooms</div>
+          <div className="eyebrow">Work with me</div>
           <RevealText as="h2" style={{ fontSize: 'clamp(2.4rem, 4.6vw, 3.6rem)', margin: '0 0 1rem', letterSpacing: '-0.015em' }}>
-            One practice. <em>Three rooms.</em>
+            Bring it to <em>your group.</em>
           </RevealText>
           <p style={{ fontSize: '1.1rem', lineHeight: 1.7, color: 'var(--text-muted)' }}>
-            Most people find this work through one door. It helps to know there are three — and which one you are walking through.
+            Most people meet me through the show. Associations bring me in to teach their members, and some readers find me through the book.
           </p>
         </motion.div>
 
@@ -135,26 +136,26 @@ export default function AudienceCards() {
                   01
                 </motion.div>
                 <div style={{ fontSize: '12.5px', letterSpacing: '0.4em', textTransform: 'uppercase', color: 'var(--accent-primary)', fontWeight: 700, marginBottom: '1.25rem' }}>
-                  For event organizers
+                  For associations and groups
                 </div>
                 <h3 style={{ fontSize: 'clamp(1.6rem, 4vw, 2.1rem)', letterSpacing: '-0.01em', margin: '0 0 1rem', lineHeight: 1.15 }}>
-                  A keynote built for rooms that can't <em style={{ fontStyle: 'italic', color: 'var(--accent-primary)' }}>afford a bad hour.</em>
+                  An hour of AI your members <em style={{ fontStyle: 'italic', color: 'var(--accent-primary)' }}>can use on Monday.</em>
                 </h3>
                 <div style={{ fontSize: '1.05rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-main)', marginBottom: '1rem' }}>
-                  C-Suite off-sites · Medical conventions · Arts Galas
+                  Lunch and learns · Chapter meetings · Trade events
                 </div>
                 <p style={{ fontSize: '1.05rem', lineHeight: 1.7, color: 'var(--text-muted)', marginBottom: '2rem' }}>
-                  A 45-minute lecture on <em>Professional Drift</em> — what it is, how it decays character, and the specific practice that reclaims presence. Adapted to your industry's language.
+                  A live session in plain English, built around the work your members already do: quotes, replies, follow-ups and the paperwork after the field. I'm building business courses for the Florida Swimming Pool Association the same way.
                 </p>
                 <motion.a
                   whileHover={{ y: -3 }}
                   whileTap={{ scale: 0.97 }}
                   transition={{ type: 'spring', stiffness: 320, damping: 18 }}
-                  href="mailto:tristian@tristianwalker.com"
+                  href="mailto:tristian@cobbledworks.com?subject=Bringing%20AI%20in%20Plain%20English%20to%20our%20group"
                   className="btn btn-primary"
                   style={{ display: 'inline-block', textDecoration: 'none' }}
                 >
-                  Request a booking kit →
+                  Ask about a date →
                 </motion.a>
               </div>
               <div style={{
@@ -167,10 +168,10 @@ export default function AudienceCards() {
                   marginBottom: '1.25rem', paddingBottom: '0.75rem',
                   borderBottom: '1px solid rgba(188,116,78,0.2)',
                 }}>
-                  What the lecture covers
+                  What a session covers
                 </div>
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                  {['The Foundation: Character at Scale', 'The Diagnosis: The Wall of Anonymity', 'The Reframe: The Compass of Presence', 'The Close: The Quiet Line & The Flicker'].map((item, i) => (
+                  {['What AI is good at, and what it isn\'t', 'Talk it at the pad: a quote from your phone', 'The reply you dread, written well', 'Four rules that keep your business safe'].map((item, i) => (
                     <motion.li
                       key={i}
                       {...(isMobile
@@ -201,6 +202,8 @@ export default function AudienceCards() {
 
           {/* Card 2: Book */}
           <motion.div
+            id="book"
+            style={{ scrollMarginTop: '6rem' }}
             {...(isMobile
               ? { initial: false }
               : {
@@ -256,10 +259,10 @@ export default function AudienceCards() {
                   The Quiet <em style={{ fontStyle: 'italic', color: 'var(--accent-primary)' }}>Line.</em>
                 </h3>
                 <div style={{ fontSize: '1.05rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-main)', marginBottom: '1rem' }}>
-                  A book for the capable & quietly disconnected
+                  The other half of my story
                 </div>
                 <p style={{ fontSize: '1.05rem', lineHeight: 1.7, color: 'var(--text-muted)', marginBottom: '2rem' }}>
-                  A measured, literary reckoning with <strong style={{ color: 'var(--text-main)' }}>professional drift</strong> — the slow trade of presence for process, and the practice that brings a person back.
+                  Before any of the AI work, there was a harder road. <em>The Quiet Line</em> is a book about my life, and the way I <strong style={{ color: 'var(--text-main)' }}>overcame alcohol</strong>. It's for anyone who looks fine on paper and is quietly losing ground.
                 </p>
                 <motion.a
                   whileHover={{ y: -3 }}

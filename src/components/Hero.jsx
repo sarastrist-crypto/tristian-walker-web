@@ -1,29 +1,31 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { useReducedMotion } from 'framer-motion';
 import RevealText from './RevealText';
 import { useIsMobile } from '../hooks/useIsMobile';
 
 const VARIANTS = [
-  <>Two decades inside the highest-stakes systems. <em>One career</em> spent learning to come back.</>,
-  <>20+ years of corporate and hospitality leadership. <em>One honest reckoning</em> with what they cost us.</>,
-  <>From corporate floors to operating rooms. <em>20+ years</em> tracing the same through-line.</>,
+  <>I teach small business owners to use AI. <em>In plain English.</em></>,
+  <>AI for the owner who runs the crew. <em>No jargon. No hype.</em></>,
+  <>Twenty years in business taught me the work. <em>Now I teach the AI.</em></>,
 ];
 
 export default function Hero() {
   const [variantIndex, setVariantIndex] = useState(0);
   const isMobile = useIsMobile();
+  const reduce = useReducedMotion();
 
   // Cycle headlines on desktop only. On mobile every cycle was running
   // a `filter: blur(8px)` animation on a 5rem heading + an empty gap from
   // AnimatePresence mode="wait" — easily perceived as a "flicker" when
   // scrolling past. A single confident headline reads cleaner anyway.
   useEffect(() => {
-    if (isMobile) return;
+    if (isMobile || reduce) return;
     const timer = setInterval(() => {
       setVariantIndex((prev) => (prev + 1) % VARIANTS.length);
     }, 6500);
     return () => clearInterval(timer);
-  }, [isMobile]);
+  }, [isMobile, reduce]);
 
   // Portrait parallax tilt
   const mx = useMotionValue(0);
@@ -86,10 +88,10 @@ export default function Hero() {
           >
             <motion.div
               animate={isMobile ? undefined : { width: [44, 64, 44] }}
-              transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
+              transition={{ duration: reduce ? 0 : 4.5, repeat: reduce ? 0 : Infinity, ease: 'easeInOut' }}
               style={{ width: isMobile ? 44 : undefined, height: '1px', background: 'var(--accent-primary)' }}
             />
-            Author · Keynote Speaker · Advisor
+            AI Educator · Founder of CobbledWorks
           </motion.div>
 
           <div style={{ display: 'grid', marginBottom: '2rem' }}>
@@ -159,10 +161,10 @@ export default function Hero() {
             }}
           >
             <p style={{ margin: '0 0 1rem 0' }}>
-              For two decades, I operated inside the highest stakes of corporate and hospitality leadership. It taught me that when process overrules presence, we lose the foundation of our character—and gradually drift into a Wall of Anonymity.
+              I run CobbledWorks, a small shop that builds software for service businesses. In the last year and a half we've built tools for more than 80 kinds of businesses with today's leading AI models. Now I teach owners how to do that work themselves.
             </p>
             <p style={{ margin: 0 }}>
-              Today, my work exists to cure this drift. Through my lecture on <a href="https://walkertalks.io/professional-drift" target="_blank" style={{ color: 'var(--text-main)', fontWeight: 700, textDecoration: 'underline', textDecorationColor: 'var(--accent-primary)', textUnderlineOffset: '4px' }}>Professional Drift</a>, we bear witness to the actual cost of our systems and learn how to establish a Compass of Presence rather than succumbing to the Gravity of Transaction. My book, <em style={{ fontFamily: 'var(--font-heading)', color: 'var(--accent-primary)' }}>The Quiet Line</em>, serves as the anchor for this work—teaching leaders how to bring their character, not just their credentials, back to the interaction.
+              Start with the show, <a href="https://cobbledworks.com/ai-in-plain-english/" target="_blank" rel="noreferrer" style={{ color: 'var(--text-main)', fontWeight: 700, textDecoration: 'underline', textDecorationColor: 'var(--accent-primary)', textUnderlineOffset: '4px' }}>AI in Plain English</a>. One idea each episode, shown on a real phone, in words you'd use with your own crew.
             </p>
           </div>
 
@@ -171,17 +173,19 @@ export default function Hero() {
               whileHover={{ y: -3 }}
               whileTap={{ scale: 0.97 }}
               transition={{ type: 'spring', stiffness: 320, damping: 18 }}
-              href="mailto:tristian@tristianwalker.com"
+              href="https://cobbledworks.com/ai-in-plain-english/episode-1/"
+              target="_blank"
+              rel="noreferrer"
               className="btn btn-primary"
               style={{ textDecoration: 'none' }}
             >
-              Book Tristian to speak →
+              Watch episode 1 →
             </motion.a>
             <motion.a
               whileHover={{ y: -3, borderColor: 'var(--accent-primary)' }}
               whileTap={{ scale: 0.97 }}
               transition={{ type: 'spring', stiffness: 320, damping: 18 }}
-              href="#library"
+              href="#speaking"
               className="btn"
               style={{
                 background: 'var(--bg-surface)',
@@ -191,7 +195,7 @@ export default function Hero() {
                 textDecoration: 'none',
               }}
             >
-              Browse the library →
+              Bring me to your group →
             </motion.a>
           </div>
         </motion.div>
@@ -246,7 +250,7 @@ export default function Hero() {
             <motion.div
               aria-hidden
               animate={{ rotate: 360 }}
-              transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: reduce ? 0 : 60, repeat: reduce ? 0 : Infinity, ease: 'linear' }}
               style={{
                 position: 'absolute',
                 inset: '-8%',
@@ -309,7 +313,7 @@ export default function Hero() {
                 backdropFilter: 'blur(8px)',
               }}
             >
-              The Author · 2026
+              AI in Plain English
             </span>
 
             <img
@@ -358,7 +362,7 @@ export default function Hero() {
                 zIndex: 4,
               }}
             >
-              "From drift to direction."
+              Plain words. Real tools.
             </motion.div>
           </motion.div>
         </motion.div>
@@ -394,7 +398,7 @@ export default function Hero() {
           Scroll
           <motion.div
             animate={{ y: [0, 10, 0], opacity: [0.3, 1, 0.3] }}
-            transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+            transition={{ duration: reduce ? 0 : 2.2, repeat: reduce ? 0 : Infinity, ease: 'easeInOut' }}
             style={{ width: '1px', height: '32px', background: 'var(--accent-primary)' }}
           />
         </motion.div>

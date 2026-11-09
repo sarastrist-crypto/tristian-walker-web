@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { MotionConfig } from 'framer-motion';
 
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
@@ -22,9 +23,9 @@ function HomePage() {
       <Navigation />
       <main style={{ position: 'relative', zIndex: 1 }}>
         <Hero />
-        <About />
-        <Library />
         <ShowFeature />
+        <Library />
+        <About />
         <AudienceCards />
         <Writing />
         <Newsletter />
@@ -41,6 +42,7 @@ function App() {
   // same property, which caused a constant ~0.5s lag during scroll and felt
   // janky on mobile. Static base color + per-section gradients is smoother.
   return (
+    <MotionConfig reducedMotion="user">
     <Router>
       <ScrollProgress />
       <div
@@ -58,6 +60,7 @@ function App() {
         </Routes>
       </div>
     </Router>
+    </MotionConfig>
   );
 }
 
