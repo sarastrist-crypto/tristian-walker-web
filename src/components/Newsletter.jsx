@@ -216,18 +216,6 @@ export default function Newsletter() {
               From the desk of —
             </div>
 
-            <p
-              style={{
-                fontFamily: 'var(--font-heading)',
-                fontSize: '1.05rem',
-                lineHeight: 1.65,
-                color: 'var(--text-main)',
-                margin: '0 0 1.25rem',
-              }}
-            >
-              "The line between motion and movement is rarely visible from inside the day. This month I asked twelve readers a single question, and what came back surprised me…"
-            </p>
-
             <div
               style={{
                 fontFamily: 'var(--font-heading)',
@@ -240,23 +228,6 @@ export default function Newsletter() {
               — T.
             </div>
 
-            <div
-              style={{
-                marginTop: '1.5rem',
-                paddingTop: '1rem',
-                borderTop: '1px dashed rgba(140,70,40,0.20)',
-                fontSize: '9.5px',
-                letterSpacing: '0.3em',
-                textTransform: 'uppercase',
-                fontWeight: 700,
-                color: 'var(--text-subtle)',
-                display: 'flex',
-                justifyContent: 'space-between',
-              }}
-            >
-              <span>A sample · last month's letter</span>
-              <span style={{ color: 'var(--accent-primary)' }}>9 min read</span>
-            </div>
           </motion.div>
 
           <p
