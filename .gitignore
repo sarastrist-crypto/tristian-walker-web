@@ -24,3 +24,6 @@ yarn-error.log*
 
 # Misc
 *.log
+
+# Social kit font cache (re-downloaded by scripts/social-kit/render.mjs)
+scripts/social-kit/.fonts/
