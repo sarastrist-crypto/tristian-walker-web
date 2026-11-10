@@ -5,23 +5,29 @@ import { useIsMobile } from '../hooks/useIsMobile';
 
 export default function Newsletter() {
   const isMobile = useIsMobile();
+  // idle | loading | success | already | error
   const [status, setStatus] = useState('idle');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
 
+  // Success is shown only after the database confirms the save. Anything else,
+  // including a site with no database settings, shows an error and keeps what
+  // the reader typed so they can try again.
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('loading');
     const formData = new FormData(e.currentTarget);
     const door = formData.get('door');
 
+    const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || '';
+    const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+    if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+      console.error('Newsletter: VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY is not set, so signups cannot be saved.');
+      setStatus('error');
+      return;
+    }
+
     try {
-      const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || '';
-      const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
-      if (!SUPABASE_URL) {
-        setTimeout(() => setStatus('success'), 1200);
-        return;
-      }
       const response = await fetch(`${SUPABASE_URL}/rest/v1/subscribers`, {
         method: 'POST',
         headers: {
@@ -30,13 +36,26 @@ export default function Newsletter() {
           Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
           Prefer: 'return=minimal',
         },
-        body: JSON.stringify({ name, email, door }),
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim().toLowerCase(),
+          door,
+          source: window.location.pathname,
+        }),
       });
-      if (!response.ok) throw new Error('Supabase Error');
-      setStatus('success');
+      if (response.ok) {
+        setStatus('success');
+        return;
+      }
+      // 409 is the unique email rule: this address is already on the list.
+      if (response.status === 409) {
+        setStatus('already');
+        return;
+      }
+      throw new Error(`Signup save failed with HTTP ${response.status}: ${await response.text()}`);
     } catch (error) {
       console.error(error);
-      setStatus('success');
+      setStatus('error');
     }
   };
 
@@ -283,7 +302,7 @@ export default function Newsletter() {
           }} />
 
           <AnimatePresence mode="wait">
-            {status === 'success' ? (
+            {status === 'success' || status === 'already' ? (
               <motion.div
                 key="success"
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -323,7 +342,7 @@ export default function Newsletter() {
                   fontSize: '2rem',
                   marginBottom: '1rem',
                 }}>
-                  Received.
+                  {status === 'already' ? 'Already on the list.' : 'Received.'}
                 </div>
                 <div style={{
                   fontSize: '10px',
@@ -332,7 +351,9 @@ export default function Newsletter() {
                   fontWeight: 700,
                   color: 'var(--text-main)',
                 }}>
-                  Check your inbox for a first letter.
+                  {status === 'already'
+                    ? 'This address is already signed up.'
+                    : 'You are on the list for the next letter.'}
                 </div>
               </motion.div>
             ) : (
@@ -468,6 +489,24 @@ export default function Newsletter() {
                 >
                   {status === 'loading' ? 'Submitting…' : 'Subscribe to The Residency'}
                 </motion.button>
+                {status === 'error' && (
+                  <p
+                    role="alert"
+                    style={{
+                      marginTop: '1rem',
+                      padding: '0.85rem 1rem',
+                      borderRadius: '6px',
+                      background: 'rgba(139,74,42,0.08)',
+                      border: '1px solid rgba(139,74,42,0.35)',
+                      color: 'var(--accent-deep)',
+                      fontSize: '0.9rem',
+                      lineHeight: 1.5,
+                      textAlign: 'center',
+                    }}
+                  >
+                    That didn't go through, and you are not on the list yet. Please try again in a moment.
+                  </p>
+                )}
                 <div style={{
                   fontSize: '10px',
                   letterSpacing: '0.15em',

@@ -89,11 +89,11 @@ if (F.kind === 'card') {
   c.innerHTML = `
     <div class="portrait" style="width:${F.portraitW}px"><img src="${PORTRAIT}" alt=""></div>
     ${halo(F.safe)}${box(F.safe, 'left')}
-      <div class="eyebrow">Host of the show</div><div class="gap-s"></div>
+      <div class="eyebrow">${F.eyebrow || 'Host of the show'}</div><div class="gap-s"></div>
       <div class="show">AI in <em>Plain English</em></div><div class="gap-m"></div>
       <div class="rule"></div><div class="gap-m"></div>
       <div class="name">Tristian Walker</div><div class="gap-s"></div>
-      <div class="line">I teach small business owners<br>to use AI.</div>
+      <div class="line">${F.line || 'I teach small business owners<br>to use AI.'}</div>
     </div>`;
 } else {
   c.innerHTML = `
