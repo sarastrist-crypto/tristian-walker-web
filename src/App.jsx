@@ -15,6 +15,7 @@ import AmbientBackground from './components/AmbientBackground';
 import ScrollProgress from './components/ScrollProgress';
 import EssayPage from './components/EssayPage';
 import EssayIndex from './components/EssayIndex';
+import GuestSheet from './components/GuestSheet';
 
 function HomePage() {
   return (
@@ -54,6 +55,7 @@ function App() {
       >
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/guest" element={<GuestSheet />} />
           <Route path="/writing" element={<EssayIndex />} />
           <Route path="/writing/:slug" element={<EssayPage />} />
           <Route path="*" element={<HomePage />} />
