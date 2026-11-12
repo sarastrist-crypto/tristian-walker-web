@@ -19,8 +19,12 @@ export default function Newsletter() {
     const formData = new FormData(e.currentTarget);
     const door = formData.get('door');
 
-    const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || '';
-    const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+    // The tristianwalker-web Supabase project. The anon key is public by design:
+    // it can only add a row to subscribers (see supabase/subscribers.sql) and
+    // would sit in the browser bundle either way. Env vars override it.
+    const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://skqokhaeowarshcvzxpl.supabase.co';
+    const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY ||
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNrcW9raGFlb3dhcnNoY3Z6eHBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ1MDA1OTgsImV4cCI6MjExMDA3NjU5OH0.l3BB5m08RTUflJxFjO3GHh3b3FwRQjqoTzf3EIFIgcE';
     if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
       console.error('Newsletter: VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY is not set, so signups cannot be saved.');
       setStatus('error');

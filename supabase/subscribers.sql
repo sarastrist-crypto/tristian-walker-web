@@ -32,6 +32,9 @@ create policy subscribers_public_insert on public.subscribers
   for insert to anon, authenticated
   with check (true);
 
+-- Applied November 12, 2026 to project tristianwalker-web (skqokhaeowarshcvzxpl,
+-- sarastrist-crypto's Org, us-east-1).
 -- Check after running: expect anon_can_insert = true, anon_can_select = false.
--- select has_table_privilege('anon', 'public.subscribers', 'INSERT') as anon_can_insert,
+-- The insert grant is per column, so has_table_privilege would report false.
+-- select has_any_column_privilege('anon', 'public.subscribers', 'INSERT') as anon_can_insert,
 --        has_table_privilege('anon', 'public.subscribers', 'SELECT') as anon_can_select;
