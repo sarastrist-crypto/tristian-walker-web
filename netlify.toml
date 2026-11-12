@@ -8,6 +8,13 @@
 [build.environment]
   NODE_VERSION = "20"
 
+# Pages with their own link-preview card get their own HTML copy (written by
+# the route-share-cards plugin in vite.config.js). Listed before the catch-all.
+[[redirects]]
+  from = "/guest"
+  to = "/guest/index.html"
+  status = 200
+
 # Single-page app: route every unmatched URL to index.html so React Router works.
 [[redirects]]
   from = "/*"

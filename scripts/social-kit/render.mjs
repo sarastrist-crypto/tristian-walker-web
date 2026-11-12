@@ -24,6 +24,8 @@ const { chromium } = createRequire(import.meta.url)('playwright');
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '../..');
 const GUIDES = process.argv.includes('--guides');
+// --only=<id> renders one format and leaves every other file untouched.
+const ONLY = (process.argv.find(a => a.startsWith('--only=')) || '').slice(7);
 const FONT_DIR = path.join(HERE, '.fonts');
 const CSS_URL = 'https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lato:wght@400;700;900&display=block';
 const UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36';
@@ -60,6 +62,11 @@ const FORMATS = [
   { id: 'share-card', out: 'public/brand/share-card.jpg', kind: 'card', w: 1200, h: 630, u: 1,
     portraitW: 520, safe: { x: 80, y: 60, w: 580, h: 510 },
     orbs: [[-340, -300, 620], [360, 360, 520], [-220, 380, 460]] },
+  // The /guest page: same card, written for a podcast host deciding on a booking.
+  { id: 'share-card-guest', out: 'public/brand/share-card-guest.jpg', kind: 'card', w: 1200, h: 630, u: 1,
+    portraitW: 520, safe: { x: 80, y: 60, w: 580, h: 510 },
+    orbs: [[-340, -300, 620], [360, 360, 520], [-220, 380, 460]],
+    eyebrow: 'Podcast guest sheet', line: 'Bio, topics and booking<br>for your show.' },
   // LinkedIn personal: the round photo sits over the lower left, so the copy
   // lives right of x=560 and inside the vertical middle.
   { id: 'linkedin', out: `${P}/linkedin-banner-1584x396.jpg`, kind: 'banner', align: 'left', w: 1584, h: 396, u: 0.9, linePx: 44,
@@ -84,14 +91,38 @@ const FORMATS = [
     orbs: [[-100, -220, 760], [900, -120, 760], [520, 300, 620]] },
 ];
 
-const fontsCss = fontFaces();
+// Fallback when Google Fonts is unreachable (some sessions get a 403): point
+// FONTSOURCE_DIR at a folder where `npm i @fontsource/merriweather @fontsource/lato`
+// ran. Same families, same weights; the fallback-width check below still runs.
+function fontsourceFaces(dir) {
+  const face = (pkg, fam, wt, st) => {
+    const file = path.join(dir, 'node_modules/@fontsource', pkg, 'files', `${pkg}-latin-${wt}-${st}.woff2`);
+    const b64 = fs.readFileSync(file).toString('base64');
+    return `@font-face{font-family:'${fam}';font-style:${st};font-weight:${wt};font-display:block;src:url(data:font/woff2;base64,${b64}) format('woff2')}`;
+  };
+  return [
+    face('merriweather', 'Merriweather', 400, 'normal'), face('merriweather', 'Merriweather', 700, 'normal'),
+    face('merriweather', 'Merriweather', 900, 'normal'), face('merriweather', 'Merriweather', 400, 'italic'),
+    face('merriweather', 'Merriweather', 700, 'italic'),
+    face('lato', 'Lato', 400, 'normal'), face('lato', 'Lato', 700, 'normal'),
+  ].join('\n');
+}
+
+let fontsCss;
+try {
+  fontsCss = fontFaces();
+} catch (err) {
+  if (!process.env.FONTSOURCE_DIR) throw err;
+  console.log('Google Fonts unreachable, using @fontsource files from', process.env.FONTSOURCE_DIR);
+  fontsCss = fontsourceFaces(process.env.FONTSOURCE_DIR);
+}
 const portrait = 'data:image/jpeg;base64,' +
   fs.readFileSync(path.join(ROOT, 'public/brand/tristian-portrait-new.jpg')).toString('base64');
 const template = fs.readFileSync(path.join(HERE, 'kit.html'), 'utf8');
 
 const browser = await chromium.launch();
 try {
-  for (const f of FORMATS) {
+  for (const f of FORMATS.filter(x => !ONLY || x.id === ONLY)) {
     const html = template
       .replace('%%FONTS%%', () => fontsCss)
       .replace('%%PORTRAIT%%', () => portrait)
@@ -115,7 +146,7 @@ try {
     }, FACES);
     const bad = report.filter(r => !r.ok);
     if (bad.length) throw new Error(`Refusing to bake ${f.id}: fonts did not load: ${bad.map(b => b.face).join(', ')}`);
-    if (f === FORMATS[0]) console.log('fonts verified:', report.map(r => `${r.face} ${r.real}px vs fallback ${r.fallback}px`).join('; '));
+    console.log('fonts verified:', report.map(r => `${r.face} ${r.real}px vs fallback ${r.fallback}px`).join('; '));
     // Contrast, measured on the rendered background (orbs, grain and all):
     // hide each text element, screenshot the box it occupies, and grade its
     // colour against the darkest background pixel in that box. Text under 24px
